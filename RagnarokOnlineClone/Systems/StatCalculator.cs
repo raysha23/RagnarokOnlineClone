@@ -35,14 +35,14 @@ namespace RagnarokOnlineClone.Systems
 
         public static int CalculateHit(Character character)
         {
-            return (character.BaseStats?.DEX ?? 0) + (character.BonusStats?.DEX ?? 0) + character.Level;
+            return (character.BaseStats?.DEX ?? 0) + (character.BonusStats?.DEX ?? 0) + character.BaseLevel;
         }
 
         public static int CalculateFlee(Character character)
         {
             int agi = (character.BaseStats?.AGI ?? 0) + (character.BonusStats?.AGI ?? 0);
             int luk = (character.BaseStats?.LUK ?? 0) + (character.BonusStats?.LUK ?? 0);
-            return agi + character.Level + (luk / 5);
+            return agi + character.BaseLevel + (luk / 5);
         }
 
         public static double CalculateCrit(Character character)
