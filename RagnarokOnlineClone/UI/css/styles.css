@@ -704,3 +704,18 @@ body {
     75% { background-color: #151d25; }
     100% { background-color: #141c23; }
 }
+/* Map container styling */
+.map-container {
+    width: 145px; /* smaller width */
+    flex-shrink: 0; /* prevent shrinking */
+    margin-top: -100px;
+    margin-right: -688px;
+}
+
+.map-container img {
+    width: 100%;
+    height: auto;
+    max-height: 200px; /* prevent it from being too tall */
+    border: 1px solid #6aa9ff;
+    border-radius: 5px;
+}

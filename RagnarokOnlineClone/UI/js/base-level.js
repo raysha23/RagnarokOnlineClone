@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const MIN_LEVEL = 1;
   const MAX_LEVEL = 99;
   const MAX_DIGITS = String(MAX_LEVEL).length; // 2 digits for 99
-  const STARTING_STATUS_POINTS = 48; // SP at level 1
-  const STATUS_POINT_FORMULA = [5, 3, 2]; // lv 2-9:5, 10-49:3, 50-99:2
+  const STARTING_STATUS_POINTS = 60; // SP at level 1
 
   const levelInput = document.querySelector(".lvl-value-input");
   const statusPointInput = document.querySelector(".status-full input"); // Status Point input
@@ -15,14 +14,38 @@ document.addEventListener("DOMContentLoaded", function () {
   const fleeRateInput = document.querySelector(
     ".status-columns .column:nth-child(2) .table-row:nth-child(3) input",
   ); // Flee Rate
+  
+  // ✅ Classic Points Gained Per Level
+  function getPointsForLevel(level) {
+    if (level <= 5) return 3;
+    if (level <= 10) return 4;
+    if (level <= 15) return 5;
+    if (level <= 20) return 6;
+    if (level <= 25) return 7;
+    if (level <= 30) return 8;
+    if (level <= 35) return 9;
+    if (level <= 40) return 10;
+    if (level <= 45) return 11;
+    if (level <= 50) return 12;
+    if (level <= 55) return 13;
+    if (level <= 60) return 14;
+    if (level <= 65) return 15;
+    if (level <= 70) return 16;
+    if (level <= 75) return 17;
+    if (level <= 80) return 18;
+    if (level <= 85) return 19;
+    if (level <= 90) return 20;
+    if (level <= 95) return 21;
+    return 22; // 96-99
+  }
 
   function calculateStatusPoints(level) {
     let points = STARTING_STATUS_POINTS;
+
     for (let lv = 2; lv <= level; lv++) {
-      if (lv <= 9) points += STATUS_POINT_FORMULA[0];
-      else if (lv <= 49) points += STATUS_POINT_FORMULA[1];
-      else points += STATUS_POINT_FORMULA[2];
+      points += getPointsForLevel(lv);
     }
+
     return points;
   }
 
