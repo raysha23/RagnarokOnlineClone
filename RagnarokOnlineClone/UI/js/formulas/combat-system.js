@@ -5,13 +5,29 @@ function calculateCombatStats(character) {
   // ----------------------------
   // STR (Strength)
   const strBonus = Math.floor(str / 10) ** 2;
-  const attack = str + strBonus;
+
+  // DEX melee bonus (every 5 DEX = +1 ATK)
+  const dexMeleeBonus = Math.floor(dex / 5);
+
+  // LUK bonus to attack (every 5 LUK = +1 ATK)
+  const lukAttackBonus = Math.floor(luk / 5);
+
+  const attack = str + strBonus + dexMeleeBonus + lukAttackBonus;
   const weightLimit = str * 30;
 
   // ----------------------------
   // AGI (Agility)
-  const flee = level + agi;
-  const attackSpeed = 150 + Math.floor(agi / 5);
+  // Base flee: level + AGI
+  let flee = level + agi;
+
+  // LUK contributes to flee rate (every 10 LUK = +1)
+  const fleeBonusFromLuk = Math.floor(luk / 10);
+  flee += fleeBonusFromLuk;
+
+  // ----------------------------
+  // ADDED: DEX minor ASPD bonus
+  const dexAspdBonus = Math.floor(dex / 20);
+  const attackSpeed = 150 + Math.floor(agi / 5) + dexAspdBonus;
 
   // ----------------------------
   // VIT (Vitality)
@@ -19,32 +35,23 @@ function calculateCombatStats(character) {
   const baseHP = 1000;
   const maxHP = Math.floor(baseHP * (1 + vit * 0.01));
 
-  // ============================
-  // INT (Intelligence) — FIXED PROPERLY
-  // ============================
-
-  // Base MATK comes from INT itself
+  // ----------------------------
+  // INT (Intelligence)
   const baseMatk = int;
-
-  // Bonus every 7 INT → minimum MATK
   const minMatkBonus = Math.floor(int / 7) ** 2;
-
-  // Bonus every 5 INT → maximum MATK
   const maxMatkBonus = Math.floor(int / 5) ** 2;
 
   const matkMin = baseMatk + minMatkBonus;
   const matkMax = baseMatk + maxMatkBonus;
 
-  // ----------------------------
-  // Magic Defense (approximation)
   const mdefBase = int;
 
   // ----------------------------
   // SP Calculations
-  const baseSP = 500; // later replace per job
-  const maxSP = Math.floor(baseSP * (1 + int * 0.01)); // +1% SP per INT
-  const spRegen = Math.floor(int / 6); // +1 regen every 6 INT
-  const spRecoveryBonusPercent = int; // +1% item effectiveness per INT
+  const baseSP = 500;
+  const maxSP = Math.floor(baseSP * (1 + int * 0.01));
+  const spRegen = Math.floor(int / 6);
+  const spRecoveryBonusPercent = int;
 
   // ----------------------------
   // DEX (Dexterity)
@@ -52,7 +59,7 @@ function calculateCombatStats(character) {
 
   // ----------------------------
   // LUK (Luck)
-  const crit = Math.max(1, Math.floor(luk * 0.3));
+  const crit = Math.max(1, Math.floor(luk * 0.3) + 1); // base 1 + LUK effect
 
   return {
     attack,
@@ -60,7 +67,7 @@ function calculateCombatStats(character) {
     matkMax,
     mdefBase,
     hit,
-    flee,
+    flee, // Total Flee including LUK bonus
     crit,
     defense,
     attackSpeed,

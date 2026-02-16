@@ -90,9 +90,15 @@ function initializeElements() {
     ".status-columns .column:nth-child(1) .table-row:nth-child(3) input",
   );
 
-  elements.fleeRateInput = document.querySelector(
-    ".status-columns .column:nth-child(2) .table-row:nth-child(3) input",
+  const fleeRow = document.querySelector(
+    ".status-columns .column:nth-child(2) .table-row:nth-child(3)",
   );
+
+  if (fleeRow) {
+    const inputs = fleeRow.querySelectorAll("input");
+    elements.fleeBaseInput = inputs[0]; // first input
+    elements.fleeLukInput = inputs[1]; // second input (includes LUK)
+  }
 
   elements.statRows = {
     str: document.querySelectorAll(".column:first-child .table-row")[0],
@@ -172,7 +178,20 @@ function updateUI() {
   elements.magicDefenseInput.value = combatStats.mdefBase; // or mdefMax, they are the same in this approximation
   elements.attackSpeedInput.value = combatStats.attackSpeed;
   elements.hitRateInput.value = combatStats.hit;
-  elements.fleeRateInput.value = combatStats.flee;
+
+  // ================= FLEE RATE =================
+  // Base flee (level + AGI), minimum 1
+  if (elements.fleeBaseInput) {
+    elements.fleeBaseInput.value = Math.max(
+      1,
+      character.baseLevel + character.stats.agi,
+    );
+  }
+  // Flee bonus from LUK (starts at 1, +1 per 10 LUK)
+  if (elements.fleeLukInput) {
+    const fleeLukBonus = 1 + Math.floor(character.stats.luk / 10);
+    elements.fleeLukInput.value = fleeLukBonus;
+  }
 
   // ================= LEVEL & STATUS POINT =================
   elements.levelInput.value = character.baseLevel;
