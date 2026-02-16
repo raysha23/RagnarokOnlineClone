@@ -1,5 +1,5 @@
 // ===================================================================
-// RAGNAROK STAT SYSTEM - CLEAN FINAL VERSION
+// RAGNAROK STAT SYSTEM - CLEAN FINAL VERSION (VALIDATED)
 // ===================================================================
 
 // ===================================================================
@@ -25,7 +25,7 @@ function getTotalStatPointsForLevel(level) {
 }
 
 function getStatIncreaseCost(currentStatValue) {
-  if (currentStatValue < 1) return 2;
+  // Base stats are always at least 1
   return Math.min(Math.floor((currentStatValue - 1) / 10) + 2, 11);
 }
 
@@ -44,12 +44,12 @@ function getTotalCostToReachStat(currentStat, targetStat) {
 const character = {
   baseLevel: 1,
   stats: {
-    str: 0,
-    agi: 0,
-    vit: 0,
-    int: 0,
-    dex: 0,
-    luk: 0,
+    str: 1,
+    agi: 1,
+    vit: 1,
+    int: 1,
+    dex: 1,
+    luk: 1,
   },
   availablePoints: 0,
 };
@@ -71,13 +71,15 @@ function initializeElements() {
     ".status-columns .column:first-child .table-row:nth-child(4) input",
   );
 
-  elements.defenseInput = document.querySelector(
-    ".status-columns .column:nth-child(2) .table-row:nth-child(1) input",
-  );
+  // Defense - second input in FIRST row
+  elements.defenseInput = document.querySelectorAll(
+    ".status-columns .column:nth-child(2) .table-row:nth-child(1) input"
+  )[1];
 
-  elements.magicDefenseInput = document.querySelector(
-    ".status-columns .column:nth-child(2) .table-row:nth-child(2) input",
-  );
+  // Magic Defense - second input in SECOND row
+  elements.magicDefenseInput = document.querySelectorAll(
+    ".status-columns .column:nth-child(2) .table-row:nth-child(2) input"
+  )[1];
 
   elements.attackSpeedInput = document.querySelector(
     ".status-columns .column:nth-child(2) .table-row:nth-child(4) input",
@@ -116,7 +118,10 @@ function increaseStat(statName) {
   const currentValue = character.stats[statName];
   const cost = getStatIncreaseCost(currentValue);
 
-  if (character.availablePoints >= cost && currentValue < 99) {
+  if (
+    character.availablePoints >= cost &&
+    currentValue < 99 // Max base stat cap
+  ) {
     character.stats[statName]++;
     character.availablePoints -= cost;
     updateUI();
@@ -126,7 +131,8 @@ function increaseStat(statName) {
 function decreaseStat(statName) {
   const currentValue = character.stats[statName];
 
-  if (currentValue > 0) {
+  // Minimum base stat is 1
+  if (currentValue > 1) {
     const refund = getStatIncreaseCost(currentValue - 1);
     character.stats[statName]--;
     character.availablePoints += refund;
@@ -141,7 +147,7 @@ function updateLevel(newLevel) {
   const totalPoints = getTotalStatPointsForLevel(newLevel);
 
   const spentPoints = Object.keys(character.stats).reduce((sum, stat) => {
-    return sum + getTotalCostToReachStat(0, character.stats[stat]);
+    return sum + getTotalCostToReachStat(1, character.stats[stat]);
   }, 0);
 
   character.availablePoints = totalPoints - spentPoints;
@@ -159,6 +165,7 @@ function updateLevel(newLevel) {
 
 function updateUI() {
   const combatStats = calculateCombatStats(character);
+
   if (elements.attackInput) {
     elements.attackInput.value = combatStats.attack;
   }
@@ -204,6 +211,11 @@ function updateUI() {
   statOrder.forEach((statName, index) => {
     const row = elements.statRows[statName];
 
+    // Safety validation (never allow below 1)
+    if (character.stats[statName] < 1) {
+      character.stats[statName] = 1;
+    }
+
     if (row) {
       const input = row.querySelector(".stat-input");
       if (input) {
@@ -212,7 +224,7 @@ function updateUI() {
     }
 
     if (elements.ptsReqDisplays[index]) {
-      const cost = character.stats[statName] === 0 ? 1 : getStatIncreaseCost(character.stats[statName]);
+      const cost = getStatIncreaseCost(character.stats[statName]);
       elements.ptsReqDisplays[index].textContent = cost;
     }
   });
@@ -242,35 +254,26 @@ function attachEventListeners() {
     }
   });
 
-  // 🔥 Live level input (clean version)
   if (elements.levelInput) {
     elements.levelInput.addEventListener("input", (e) => {
       let raw = e.target.value.replace(/\D/g, "");
 
-      // Allow empty while typing
       if (raw === "") {
         e.target.value = "";
         return;
       }
 
       let value = parseInt(raw);
-
-      // Clamp only if user exceeds max
       if (value > 99) value = 99;
 
       e.target.value = value;
-
-      // 🔥 Update live while typing
       updateLevel(value);
     });
 
     elements.levelInput.addEventListener("blur", (e) => {
       let value = parseInt(e.target.value);
 
-      if (isNaN(value) || value < 1) {
-        value = 1;
-      }
-
+      if (isNaN(value) || value < 1) value = 1;
       value = Math.max(1, Math.min(99, value));
 
       e.target.value = value;
@@ -288,7 +291,7 @@ function initialize() {
   updateLevel(1);
   attachEventListeners();
 
-  console.log("🎮 Ragnarok Stat System Initialized!");
+  console.log("🎮 Ragnarok Stat System Initialized (Validated)!");
 }
 
 if (document.readyState === "loading") {
