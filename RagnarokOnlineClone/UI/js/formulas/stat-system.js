@@ -212,7 +212,7 @@ function updateUI() {
     }
 
     if (elements.ptsReqDisplays[index]) {
-      const cost = getStatIncreaseCost(character.stats[statName]);
+      const cost = character.stats[statName] === 0 ? 1 : getStatIncreaseCost(character.stats[statName]);
       elements.ptsReqDisplays[index].textContent = cost;
     }
   });
