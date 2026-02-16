@@ -27,9 +27,10 @@ function calculateCombatStats(character) {
   // Attack Speed (simplified base version)
   // ----------------------------
   const flee = level + agi;
+
   // Base ASPD formula: Each 1 AGI = -0.4% attack delay
-  // We'll use a simplified version for UI: 150 - floor(agi / 2)
-  const attackSpeed = 150 - Math.floor(agi / 2);
+  // We'll use a simplified version for UI: 150 + floor(agi / 2)
+  const attackSpeed = 150 + Math.floor(agi / 2);
 
   // ----------------------------
   // VIT (Vitality)
@@ -53,7 +54,7 @@ function calculateCombatStats(character) {
   // Hit = level + DEX
   // ----------------------------
   const hit = level + dex;
-        
+
   // ----------------------------
   // LUK (Luck)
   // Crit = floor(LUK * 0.3) with a minimum of 1
