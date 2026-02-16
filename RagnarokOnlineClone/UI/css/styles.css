@@ -1,721 +1,771 @@
 @font-face {
-    font-family: 'Reaver';
-    src: url('Reaver-Regular.woff') format('woff');
-    
+  font-family: "Reaver";
+  src: url("Reaver-Regular.woff") format("woff");
 }
 
 @font-face {
-    font-family: 'Radiance';
-    src: url('fonts/Radiance.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Radiance";
+  src: url("fonts/Radiance.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 @font-face {
-    font-family: 'Reaver-Bold';
-    src: url('fonts/Reaver-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Reaver-Bold";
+  src: url("fonts/Reaver-Bold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 @font-face {
-    font-family: 'Reaver-SemiBold';
-    src: url('fonts/Reaver-SemiBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Reaver-SemiBold";
+  src: url("fonts/Reaver-SemiBold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
-html, body {
-    height: 100%;
-    margin: 0;
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 .rpg-container {
-    width: min(1400px, 95vw);
-    height: min(620px, 90vh);
+  width: min(1400px, 95vw);
+  height: min(620px, 90vh);
 
-    padding: 30px;
-    border-radius: 10px;
-    position: relative;
+  padding: 30px;
+  border-radius: 10px;
+  position: relative;
 
-    color: #e2e8ef;
-    background: #202D38;
-    border: 1px solid #d9f0ff;
+  color: #e2e8ef;
+  background: #202d38;
+  border: 1px solid #d9f0ff;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
-
-
 
 .left-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 500px;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 500px;
+  position: relative;
 }
-
 
 .stats-master {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-      background: #141c23;
-    border:  #202D38;
-    border-radius: 8px;
-    padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #141c23;
+  border: #202d38;
+  border-radius: 8px;
+  padding: 15px;
 }
 
-.lvl-value-input { 
-    width: 50px;
-    font-family: 'Reaver';
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #6aa9ff;
-    text-align: center;
-    outline: none;
-    cursor: pointer;
+.lvl-value-input {
+  width: 50px;
+  font-family: "Reaver";
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #6aa9ff;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
 }
 
 .lvl-value-input:focus {
-    border-color: #9fd7ff;
-    box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
-    background: rgba(0,0,0,0.3);
+  border-color: #9fd7ff;
+  box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .stats-top {
-    display: flex;
-    gap: 6px;
+  display: flex;
+  gap: 6px;
 }
 
 /* ===== CUSTOM COLUMN WIDTHS ===== */
 
 .stats-top .column:nth-child(1) {
-    flex: 1.6;   /* Stats column (wider) */
+  flex: 1.6; /* Stats column (wider) */
 }
 
 .stats-top .column:nth-child(2) {
-    flex: 0.7;   /* Job Bonus (smaller) */
+  flex: 0.7; /* Job Bonus (smaller) */
 }
 
 .stats-top .column:nth-child(3) {
-    flex: 0.6;   /* Pts Req (smallest) */
+  flex: 0.6; /* Pts Req (smallest) */
 }
 
 /* COLUMN STYLE */
 .column {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-     background: #202D38;
-    border: 1px solid #6aa9ff;
-    padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #202d38;
+  border: 1px solid #6aa9ff;
+  padding: 6px;
 }
-
 
 /* HEADER */
 .column-header {
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9fd7ff;
-    font-size: 18px;
-    border-bottom: 1px solid #6aa9ff;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9fd7ff;
+  font-size: 18px;
+  border-bottom: 1px solid #6aa9ff;
 }
 
 /* ROW */
 .table-row {
-    height: 32px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* LABEL */
 .label {
-    width: 130px;   /* increased */
-    color: #8fd3ff;
-    white-space: nowrap; /* prevent breaking */
+  width: 130px; /* increased */
+  color: #8fd3ff;
+  white-space: nowrap; /* prevent breaking */
 }
-
 
 /* INPUT */
 input {
-    width: 60px;
-    height: 24px;
-    background: #d9f0ff;
-    border: 2px solid #6aa9ff;
-    border-radius: 3px;
-    text-align: center;
-    font-family: 'Reaver';
+  width: 60px;
+  height: 24px;
+  background: #d9f0ff;
+  border: 2px solid #6aa9ff;
+  border-radius: 3px;
+  text-align: center;
+  font-family: "Reaver";
 }
 
 /* VALUE */
 .value {
-    width: 40px;
-    text-align: center;
-    background: rgba(0,0,0,0.35);
-    border: 1px solid #6aa9ff;
-    color: #cfe9ff;
+  width: 40px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid #6aa9ff;
+  color: #cfe9ff;
 }
 
 /* BUTTONS */
 .plus-btn,
 .symbol-btn {
-    width: 28px;
-    height: 24px;
-     background: #141c23;
-    border: 2px solid #7fc4ff;
-    color: #e6f4ff;
-    border-radius: 3px;
-    cursor: pointer;
-    font-family: 'Reaver';
-    text-align: center;
+  width: 28px;
+  height: 24px;
+  background: #141c23;
+  border: 2px solid #7fc4ff;
+  color: #e6f4ff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: "Reaver";
+  text-align: center;
 }
-
-
 
 /* ================= STATUS ================= */
 .status-wrapper {
-      background: #141c23;
-    border: 1px solid #6aa9ff;
-    padding: 6px;
+  background: #141c23;
+  border: 1px solid #6aa9ff;
+  padding: 6px;
 }
 
 .status-title {
-    text-align: center;
-    font-size: 20px;
-    color: #9fd7ff;
-    margin-bottom: 6px;
-    border-bottom: 1px solid #6aa9ff;
-    padding-bottom: 4px;
+  text-align: center;
+  font-size: 20px;
+  color: #9fd7ff;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #6aa9ff;
+  padding-bottom: 4px;
 }
 
 .status-columns {
-    display: flex;
-    gap: 6px;
+  display: flex;
+  gap: 6px;
 }
 
 /* FULL WIDTH STATUS ROWS (UNDER CRITICAL + ASPD) */
 .status-full {
-    margin-top: 6px;
-       background: #202D38;
-    border: 1px solid #6aa9ff;
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  margin-top: 6px;
+  background: #202d38;
+  border: 1px solid #6aa9ff;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 /* Make Hit Rate, Critical Rate, and Attack Speed boxes longer */
 .status-columns .column:first-child .table-row:nth-child(3) input,   /* Hit Rate */
 .status-columns .column:first-child .table-row:nth-child(4) input,   /* Critical Rate */
-.status-columns .column:last-child .table-row:nth-child(4) input {   /* Attack Speed */
-    width: 160px;
+.status-columns .column:last-child .table-row:nth-child(4) input {
+  /* Attack Speed */
+  width: 160px;
 }
-
 
 .status-full .table-row:nth-child(1) input,                          /* Status Point */
-.status-full .table-row:nth-child(2) input {                         /* Guild */
-    width: 500px;
+.status-full .table-row:nth-child(2) input {
+  /* Guild */
+  width: 500px;
 }
-
-
 
 /* Center Job Bonus + Pts Req contents in each row */
 .stats-top .column:nth-child(2) .table-row,   /* Job Bonus */
-.stats-top .column:nth-child(3) .table-row {  /* Pts Req */
-    display: flex;
-    justify-content: center;   /* center horizontally */
-    align-items: center;       /* center vertically */
-    gap: 6px;                  /* spacing between button/value */
+.stats-top .column:nth-child(3) .table-row {
+  /* Pts Req */
+  display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center; /* center vertically */
+  gap: 6px; /* spacing between button/value */
 }
 
 /* Make sure Job Bonus value box and plus button are centered and same height */
 .stats-top .column:nth-child(2) .value,
 .stats-top .column:nth-child(3) .value,
 .stats-top .column:nth-child(2) .plus-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Change ONLY Status Information input box colors */
 .status-wrapper input {
-    background: rgba(0,0,0,0.35);
-    border: 1px solid #6aa9ff;
-    color: #cfe9ff;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid #6aa9ff;
+  color: #cfe9ff;
 }
 
 /* Make Job Bonus and Pts Req boxes have curved corners like inputs */
 .value {
-    border-radius: 3px;
+  border-radius: 3px;
 }
 
 .character-gif {
-    display: flex;
-    justify-content: center;
-    margin-top: -30px;
-    margin-left: 140px;
+  display: flex;
+  justify-content: center;
+  margin-top: -30px;
+  margin-left: 140px;
 }
 
 .character-gif img {
-    width: 330px;
-    height: auto;
-    object-fit: cover;
+  width: 330px;
+  height: auto;
+  object-fit: cover;
 }
-
-
 
 /* ===== ABILITIES SECTION ===== */
 
 .rock-spot {
-    margin-top: 25px;   /* moved down */
-    margin-left: 80px;
-    z-index: 0;
+  margin-top: 25px; /* moved down */
+  margin-left: 80px;
+  z-index: 0;
 }
 
-
 .rock-spot img {
-    width: 260px;         /* ✅ CHANGED SIZE */
-    height: auto;         /* ✅ CHANGED */
-    object-fit: contain;  /* ✅ ADDED */
+  width: 260px; /* ✅ CHANGED SIZE */
+  height: auto; /* ✅ CHANGED */
+  object-fit: contain; /* ✅ ADDED */
 }
 
 /* ABILITIES */
-.abilities-section { margin-top: 20px; text-align: center; margin-right: -100px; }
-.abilities-text { font-size: 12px; color: #6aa9ff; margin-bottom: 8px; letter-spacing: 2px; }
-.abilities-icons { display: flex; gap: 15px; }
-.innate-left img, .innate-right img { width: 32px; height: 32px; border: 1px solid #6aa9ff; padding: 2px; background: #000; }
-
+.abilities-section {
+  margin-top: 20px;
+  text-align: center;
+  margin-right: -100px;
+}
+.abilities-text {
+  font-size: 12px;
+  color: #6aa9ff;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+.abilities-icons {
+  display: flex;
+  gap: 15px;
+}
+.innate-left img,
+.innate-right img {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #6aa9ff;
+  padding: 2px;
+  background: #000;
+}
 
 /* ================= MATCH JOB BONUS & PTS REQ TO STATUS STYLE ================= */
 
 /* Make font identical to inputs */
 .value {
-    font-family: 'Reaver';
-    font-size: 14px;      /* Match input text size */
-    height: 24px;         /* Same height as input */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-family: "Reaver";
+  font-size: 14px; /* Match input text size */
+  height: 24px; /* Same height as input */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    background: rgba(0,0,0,0.35);
-    border: 1px solid #6aa9ff;
-    color: #cfe9ff;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid #6aa9ff;
+  color: #cfe9ff;
 
-    border-radius: 3px;
+  border-radius: 3px;
 }
 
 /* Add same hover effect as status inputs */
 .value:hover {
-    border-color: #9fd7ff;
-    box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
+  border-color: #9fd7ff;
+  box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
 }
-
 
 /* ================= STATUS INPUT HOVER LIKE .value ================= */
 
 .status-wrapper input {
-    transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .status-wrapper input:hover {
-    border-color: #9fd7ff;
-    box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
+  border-color: #9fd7ff;
+  box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
 }
 
 /* ================= HOME BACKGROUND (NO CROPPING) ================= */
 
 body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Reaver', serif;
-    position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Reaver", serif;
+  position: relative;
 }
-
 
 .home-container {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
 }
 
 .home-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-
 
 .home-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;   /* fills screen without distortion */
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills screen without distortion */
+  display: block;
 }
-
 
 /* Small stat icon */
 .stat-icon {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
-
 
 /* ================= PROFESSIONAL RPG HEADER ================= */
 
 .rpg-header-bar {
-    position: absolute;
-    top: -45px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
+  position: absolute;
+  top: -45px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
 }
 
 /* Tabs container */
 .rpg-tabs {
-    display: flex;
-    gap: 8px;
-    margin-left: 40px;
-    position: relative;
+  display: flex;
+  gap: 8px;
+  margin-left: 40px;
+  position: relative;
 }
 
 /* Long connected line */
 .rpg-tabs::after {
-    display: none;
+  display: none;
 }
 
 /* Individual tabs */
 .rpg-tab {
-    width: 120px;
-    height: 42px;
+  width: 120px;
+  height: 42px;
 
-    background: linear-gradient(to bottom, #1b2731, #111a22);
-    border: 1px solid #6aa9ff;
-    border-bottom: none;
+  background: linear-gradient(to bottom, #1b2731, #111a22);
+  border: 1px solid #6aa9ff;
+  border-bottom: none;
 
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 
-    transition: all 0.25s ease;
-    
-    display: flex;              /* 🔥 ADD THIS */
-    align-items: center;        /* vertical center */
-    justify-content: center;    /* horizontal center */
+  transition: all 0.25s ease;
+
+  display: flex; /* 🔥 ADD THIS */
+  align-items: center; /* vertical center */
+  justify-content: center; /* horizontal center */
 }
 
 /* Inactive tabs slightly darker */
 .rpg-tab:not(.active) {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 /* Hover glow */
 .rpg-tab:hover {
-    opacity: 1;
-    box-shadow: 0 0 10px rgba(120,180,255,0.6);
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(120, 180, 255, 0.6);
 }
 
 /* Active tab blends into container */
 .rpg-tab.active {
-    background: #202D38; /* SAME as container */
-    border: 1px solid #d9f0ff;
-    border-bottom: 2px solid #202D38;
-    box-shadow: 0 0 10px rgba(150,220,255,0.7);
+  background: #202d38; /* SAME as container */
+  border: 1px solid #d9f0ff;
+  border-bottom: 2px solid #202d38;
+  box-shadow: 0 0 10px rgba(150, 220, 255, 0.7);
 }
-
 
 /* ===== FIX STAT BUTTON ALIGNMENT ===== */
 
 .table-row {
-    height: 32px;
-    display: flex;
-    align-items: center;   /* vertical center everything */
-    gap: 6px;
+  height: 32px;
+  display: flex;
+  align-items: center; /* vertical center everything */
+  gap: 6px;
 }
 
 /* Make input and buttons identical height */
 .table-row input {
-    height: 24px;
-    box-sizing: border-box;
+  height: 24px;
+  box-sizing: border-box;
 }
 
 /* Stat buttons */
 .stat-btn {
-    width: 28px;
-    height: 24px;
-    display: flex;              /* important */
-    align-items: center;        /* center symbol vertically */
-    justify-content: center;    /* center symbol horizontally */
-    padding: 0;
+  width: 28px;
+  height: 24px;
+  display: flex; /* important */
+  align-items: center; /* center symbol vertically */
+  justify-content: center; /* center symbol horizontally */
+  padding: 0;
 
-    background: #141c23;
-    border: 2px solid #7fc4ff;
-    color: #e6f4ff;
-    border-radius: 3px;
-    cursor: pointer;
-    font-family: 'Reaver';
-    line-height: 1;             /* prevents symbol shift */
+  background: #141c23;
+  border: 2px solid #7fc4ff;
+  color: #e6f4ff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: "Reaver";
+  line-height: 1; /* prevents symbol shift */
 }
 
 .stat-btn:hover {
-    border-color: #9fd7ff;
-    box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
+  border-color: #9fd7ff;
+  box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
 }
-
-
 
 /* ===== RPG STAT TEXTBOX (NO NUMBER STYLE) ===== */
 
 .stat-input {
-    width: 50px;
-    height: 24px;
+  width: 50px;
+  height: 24px;
 
-    background: #d9f0ff;
-    border: 2px solid #6aa9ff;
-    border-radius: 3px;
+  background: #d9f0ff;
+  border: 2px solid #6aa9ff;
+  border-radius: 3px;
 
-    text-align: center;
-    font-family: 'Reaver';
-    font-size: 14px;
+  text-align: center;
+  font-family: "Reaver";
+  font-size: 14px;
 
-    outline: none;
-    box-sizing: border-box;
+  outline: none;
+  box-sizing: border-box;
 
-    transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 /* Hover glow like RPG UI */
 .stat-input:hover {
-    border-color: #9fd7ff;
-    box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
+  border-color: #9fd7ff;
+  box-shadow: 0 0 6px rgba(100, 180, 255, 0.6);
 }
 
 /* Remove blue highlight on click */
 .stat-input:focus {
-    border-color: #9fd7ff;
-    box-shadow: 0 0 8px rgba(120, 200, 255, 0.8);
+  border-color: #9fd7ff;
+  box-shadow: 0 0 8px rgba(120, 200, 255, 0.8);
 }
-
-
 
 /* VITAL STATS (HP/SP/LVL) */
 .vital-stats {
-    width: 100%;
-    display: flex;
-    gap: 15px;
-    background: rgba(0,0,0,0.4);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #3a4a5a;
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #3a4a5a;
 }
 .level-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid #3a4a5a;
-    padding-right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #3a4a5a;
+  padding-right: 15px;
 }
-.lvl-label { font-size: 10px; color: #6aa9ff; }
-.lvl-value { font-size: 24px; color: #fff; font-weight: bold; }
+.lvl-label {
+  font-size: 10px;
+  color: #6aa9ff;
+}
+.lvl-value {
+  font-size: 24px;
+  color: #fff;
+  font-weight: bold;
+}
 
 .bars-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;  /* same as original */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* same as original */
 }
 
 .bar-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;  /* same as original */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* same as original */
 }
 
 .bar-label {
-    width: 25px;      /* same as original */
-    font-weight: bold;
-    color: #fff;
-    user-select: none;  /* prevents accidental text selection */
+  width: 25px; /* same as original */
+  font-weight: bold;
+  color: #fff;
+  user-select: none; /* prevents accidental text selection */
 }
 
 .bar-bg {
-    flex: 1;          /* fills the remaining space */
-    height: 12px;     /* exactly same as original */
-    background: #000; /* same as original */
-    border-radius: 6px; 
-    overflow: hidden;
-    border: 1px solid #444; /* same as original */
+  flex: 1; /* fills the remaining space */
+  height: 12px; /* exactly same as original */
+  background: #000; /* same as original */
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #444; /* same as original */
 }
 
 .bar-fill {
-    height: 100%; 
-    border-radius: 6px 0 0 6px; /* rounded only left side */
-    transition: width 0.5s ease;
+  height: 100%;
+  border-radius: 6px 0 0 6px; /* rounded only left side */
+  transition: width 0.5s ease;
 }
 
 .hp-fill {
-    background: linear-gradient(to right, #ff4b4b, #a30000);
+  background: linear-gradient(to right, #ff4b4b, #a30000);
 }
 
 .sp-fill {
-    background: linear-gradient(to right, #4b90ff, #003da3);
+  background: linear-gradient(to right, #4b90ff, #003da3);
 }
 
 .bar-text {
-    width: 80px;          /* same as original */
-    font-size: 11px;      /* same as original */
-    color: #fff;          /* text color */
-    text-align: right;
-    user-select: none;
-    font-family: 'Reaver', serif;
-    font-weight: normal;  /* <-- changed from bold to normal */
+  width: 80px; /* same as original */
+  font-size: 11px; /* same as original */
+  color: #fff; /* text color */
+  text-align: right;
+  user-select: none;
+  font-family: "Reaver", serif;
+  font-weight: normal; /* <-- changed from bold to normal */
 }
 
-
-
 .bar-text-input {
-    width: 80px;
-    font-size: 11px;
-    color: #fff;
-    text-align: right;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-family: 'Reaver', serif;
-    font-weight: normal;
+  width: 80px;
+  font-size: 11px;
+  color: #fff;
+  text-align: right;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: "Reaver", serif;
+  font-weight: normal;
 }
 
 /* Make readonly truly non-interactive */
 .bar-text-input[readonly] {
-    pointer-events: none;   /* prevents clicking */
-    user-select: none;      /* prevents text selection */
+  pointer-events: none; /* prevents clicking */
+  user-select: none; /* prevents text selection */
 }
 
 /* Remove focus effects if readonly */
 .bar-text-input[readonly]:focus {
-    border: none;
-    box-shadow: none;
+  border: none;
+  box-shadow: none;
 }
-
-
-
 
 .column-header,
 .status-title {
+  /* REMOVE animation */
+  animation: none;
 
-    /* REMOVE animation */
-    animation: none;
-
-    /* Clean RPG Glow + Depth */
-    text-shadow:
+  /* Clean RPG Glow + Depth */
+  text-shadow:
         /* depth */
-        0 1px 0 #0a0f14,
-        0 2px 0 #0a0f14,
-        0 4px 8px rgba(0,0,0,0.85),
-
-        /* glow */
-        0 0 6px rgba(130,200,255,0.7),
-        0 0 12px rgba(130,200,255,0.5);
+    0 1px 0 #0a0f14,
+    0 2px 0 #0a0f14,
+    0 4px 8px rgba(0, 0, 0, 0.85),
+    /* glow */ 0 0 6px rgba(130, 200, 255, 0.7),
+    0 0 12px rgba(130, 200, 255, 0.5);
 }
-
-
 
 /* Map container styling */
 .map-container {
-    width: 145px; /* smaller width */
-    flex-shrink: 0; /* prevent shrinking */
-    margin-top: -100px;
-    margin-right: -688px;
+  width: 145px; /* smaller width */
+  flex-shrink: 0; /* prevent shrinking */
+  margin-top: -100px;
+  margin-right: -688px;
 }
 
 .map-container img {
-    width: 100%;
-    height: auto;
-    max-height: 200px; /* prevent it from being too tall */
-    border: 1px solid #6aa9ff;
-    border-radius: 5px;
+  width: 100%;
+  height: auto;
+  max-height: 200px; /* prevent it from being too tall */
+  border: 1px solid #6aa9ff;
+  border-radius: 5px;
 }
-
-
 
 /* ===== STATS-MASTER TECH HUD STYLE (REALISTIC ANIMATION) ===== */
 .stats-master {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
-    border-radius: 12px;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 12px;
+  position: relative;
 
-    background: #141c23; /* dark panel */
-    overflow: hidden;
+  background: #141c23; /* dark panel */
+  overflow: hidden;
 
-    /* subtle animation to make it feel alive without glow */
-    animation: subtlePulse 4s ease-in-out infinite;
+  /* subtle animation to make it feel alive without glow */
+  animation: subtlePulse 4s ease-in-out infinite;
 }
 
 /* Subtle horizontal scanline moving top to bottom */
 .stats-master::before {
-    content: '';
-    position: absolute;
-    top: -60%;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0) 0%,
-        rgba(106,169,255,0.12) 50%,
-        rgba(255,255,255,0) 100%
-    );
-    transform: skewY(-25deg);
-    animation: scanline 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    pointer-events: none;
-    border-radius: 12px;
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(106, 169, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewY(-25deg);
+  animation: scanline 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  border-radius: 12px;
 }
 
 /* Scanline animation with eased movement */
 @keyframes scanline {
-    0% { top: -60%; opacity: 0; }
-    30% { opacity: 0.3; }
-    50% { top: 50%; opacity: 0.15; }
-    70% { opacity: 0.3; }
-    100% { top: 160%; opacity: 0; }
+  0% {
+    top: -60%;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.3;
+  }
+  50% {
+    top: 50%;
+    opacity: 0.15;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    top: 160%;
+    opacity: 0;
+  }
 }
 
 /* Subtle pulse for alive effect */
 @keyframes subtlePulse {
-    0% { background-color: #141c23; }
-    25% { background-color: #151d25; }
-    50% { background-color: #161e28; }
-    75% { background-color: #151d25; }
-    100% { background-color: #141c23; }
+  0% {
+    background-color: #141c23;
+  }
+  25% {
+    background-color: #151d25;
+  }
+  50% {
+    background-color: #161e28;
+  }
+  75% {
+    background-color: #151d25;
+  }
+  100% {
+    background-color: #141c23;
+  }
 }
 /* Map container styling */
 .map-container {
-    width: 145px; /* smaller width */
-    flex-shrink: 0; /* prevent shrinking */
-    margin-top: -100px;
-    margin-right: -688px;
+  width: 145px; /* smaller width */
+  flex-shrink: 0; /* prevent shrinking */
+  margin-top: -100px;
+  margin-right: -688px;
 }
 
 .map-container img {
-    width: 100%;
-    height: auto;
-    max-height: 200px; /* prevent it from being too tall */
-    border: 1px solid #6aa9ff;
-    border-radius: 5px;
+  width: 100%;
+  height: auto;
+  max-height: 200px; /* prevent it from being too tall */
+  border: 1px solid #6aa9ff;
+  border-radius: 5px;
+}
+
+.stat-error {
+  animation: shake 0.3s;
+}
+
+.stat-error .stat-input {
+  border: 2px solid red;
+  color: white;
+  background-color: rgba(255, 0, 0, 0.15);
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.stat-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
 }
