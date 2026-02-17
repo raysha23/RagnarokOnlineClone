@@ -300,9 +300,30 @@ function attachEventListeners() {
   });
 
   elements.levelInput.addEventListener("input", (e) => {
-    let raw = e.target.value.replace(/\D/g, "");
-    if (raw === "") return;
-    updateLevel(parseInt(raw));
+    // Remove everything that is not a number
+    let cleaned = e.target.value.replace(/[^0-9]/g, "");
+
+    // If user deleted everything
+    if (cleaned === "") {
+      e.target.value = "";
+      return;
+    }
+
+    let numericValue = parseInt(cleaned, 10);
+
+    // Clamp between 1 and 99
+    numericValue = Math.max(1, Math.min(99, numericValue));
+
+    // Force cleaned + clamped value back into input
+    e.target.value = numericValue;
+
+    updateLevel(numericValue);
+  });
+
+  elements.levelInput.addEventListener("blur", () => {
+    if (!elements.levelInput.value || parseInt(elements.levelInput.value) < 1) {
+      updateLevel(1);
+    }
   });
 }
 
