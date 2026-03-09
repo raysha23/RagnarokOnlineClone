@@ -273,8 +273,8 @@ input {
     position: relative;
     z-index: 100; /* ALWAYS above spawn */
 
-    width: 130px;
-    height: 420px;
+    width: 70px;   /* smaller */
+    height: 300px; /* smaller */
 
     display: flex;
     align-items: center;
@@ -283,7 +283,7 @@ input {
     overflow: hidden;
 
     margin-left: 2435px;
-    margin-top: -875px;
+    margin-top: -830px;
 }
 
 .character-gif img {
