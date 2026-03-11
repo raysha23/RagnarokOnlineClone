@@ -284,7 +284,7 @@ input {
     overflow: hidden;
 
     margin-left: 2435px;
-    margin-top: -830px;
+    margin-top: -940px;
 }
 
 .character-gif img {
@@ -357,10 +357,10 @@ input {
 /* Female Novice – larger, showing only up to knees */
 .hero-selection img[src*="novice.png"],
 .hero-selection img[src*="femalenovice.png"] {
-     margin-top: 60px !important; /* moves the image up; adjust as needed */
+     margin-top: 130px !important; /* moves the image up; adjust as needed */
   
-     width: 2200px !important;      /* much bigger */
-     height: 1300px;   
+     width: 2000px !important;      /* much bigger */
+     height: 880px;   
     position: relative;            /* ensure independent positioning */
     z-index: 100;                  /* stays above background but below rock if needed */
 }
@@ -400,7 +400,7 @@ input {
      /* ABOVE stats but BELOW character */
 
     margin-left: 2435px;
-    margin-top: -650px;
+    margin-top: -760px;
 }
 .spawn-platform {
     position: relative;
