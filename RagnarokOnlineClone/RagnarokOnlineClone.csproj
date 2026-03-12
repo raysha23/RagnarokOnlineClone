@@ -487,6 +487,9 @@
     <None Update="UI\js\generalScript.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="UI\js\JsForUI\UI.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="UI\js\str-function.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,7 +10,7 @@
     <div class="home-container">
       <img src="images/ragnarokbg.png" />
     </div>
-    
+
     <!-- LEFT SIDE -->
     <div class="left-panel">
       <!-- DESCRIPTION CONTAINER -->
@@ -229,49 +229,49 @@
           <div class="table-row">
             <img src="images/strength1.png" class="stat-icon" />
             <span class="label">Strength</span>
-            <button class="stat-btn plus">-</button>
+            <button class="stat-btn minus">-</button>
             <input type="text" value="1" class="stat-input" />
-            <button class="stat-btn minus">+</button>
+            <button class="stat-btn plus">+</button>
           </div>
 
           <div class="table-row">
             <img src="images/agility2.png" class="stat-icon" />
             <span class="label">Agility</span>
-            <button class="stat-btn plus">-</button>
+            <button class="stat-btn minus">-</button>
             <input type="text" value="1" class="stat-input" />
-            <button class="stat-btn minus">+</button>
+            <button class="stat-btn plus">+</button>
           </div>
 
           <div class="table-row">
             <img src="images/vitality3.png" class="stat-icon" />
             <span class="label">Vitality</span>
-            <button class="stat-btn plus">-</button>
+            <button class="stat-btn minus">-</button>
             <input type="text" value="1" class="stat-input" />
-            <button class="stat-btn minus">+</button>
+            <button class="stat-btn plus">+</button>
           </div>
 
           <div class="table-row">
             <img src="images/intelligence4.png" class="stat-icon" />
             <span class="label">Intelligence</span>
-            <button class="stat-btn plus">-</button>
+            <button class="stat-btn minus">-</button>
             <input type="text" value="1" class="stat-input" />
-            <button class="stat-btn minus">+</button>
+            <button class="stat-btn plus">+</button>
           </div>
 
           <div class="table-row">
             <img src="images/dexterity5.png" class="stat-icon" />
             <span class="label">Dexterity</span>
-            <button class="stat-btn plus">-</button>
+            <button class="stat-btn minus">-</button>
             <input type="text" value="1" class="stat-input" />
-            <button class="stat-btn minus">+</button>
+            <button class="stat-btn plus">+</button>
           </div>
 
           <div class="table-row">
             <img src="images/luck6.png" class="stat-icon" />
             <span class="label">Luck</span>
-            <button class="stat-btn plus">-</button>
+            <button class="stat-btn minus">-</button>
             <input type="text" value="1" class="stat-input" />
-            <button class="stat-btn minus">+</button>
+            <button class="stat-btn plus">+</button>
           </div>
         </div>
 
@@ -320,29 +320,29 @@
             <div class="table-row">
               <img src="images/attack.png" class="stat-icon" />
               <span class="label">Attack</span>
-              <input value="1" readonly />
+              <input class="atk-value" value="1" readonly />
               <button class="symbol-btn">+</button>
-              <input value="0" readonly />
+              <input class="atk-bonus" value="0" readonly />
             </div>
 
             <div class="table-row">
               <img src="images/magicattack.png" class="stat-icon" />
               <span class="label">Magic Attack</span>
-              <input value="1" readonly />
+              <input class="matk-min" value="1" readonly />
               <button class="symbol-btn">~</button>
-              <input value="1" readonly />
+              <input class="matk-max" value="1" readonly />
             </div>
 
             <div class="table-row">
               <img src="images/hitrate.png" class="stat-icon" />
               <span class="label">Hit Rate</span>
-              <input value="2" readonly />
+              <input class="hit-value" value="2" readonly />
             </div>
 
             <div class="table-row">
               <img src="images/criticalhit.png" class="stat-icon" />
               <span class="label">Critical Rate</span>
-              <input value="1" readonly />
+              <input class="crit-value" value="1" readonly />
             </div>
           </div>
 
@@ -350,32 +350,32 @@
           <div class="column">
             <div class="table-row">
               <img src="images/defense.png" class="stat-icon" />
-              <span class="label">Defense</span>
-              <input value="0" readonly />
+              <span>Defense</span>
+              <input class="def-base" value="0" readonly />
               <button class="symbol-btn">+</button>
-              <input value="1" readonly />
+              <input class="def-total" value="1" readonly />
             </div>
 
             <div class="table-row">
               <img src="images/magicdefense.png" class="stat-icon" />
               <span class="label">Magic Defense</span>
-              <input value="0" readonly />
+              <input class="mdef-base" value="0" readonly />
               <button class="symbol-btn">+</button>
-              <input value="1" readonly />
+              <input class="mdef-total" value="1" readonly />
             </div>
 
             <div class="table-row">
               <img src="images/fleerate.png" class="stat-icon" />
               <span class="label">Flee Rate</span>
-              <input value="2" readonly />
+              <input class="flee-base" value="2" readonly />
               <button class="symbol-btn">+</button>
-              <input value="1" readonly />
+              <input class="flee-luk" value="1" readonly />
             </div>
 
             <div class="table-row">
               <img src="images/attackspeed.png" class="stat-icon" />
               <span class="label">Attack Speed</span>
-              <input value="150" readonly />
+              <input class="aspd-value" value="150" readonly />
             </div>
           </div>
         </div>
@@ -384,7 +384,7 @@
           <div class="table-row">
             <img src="images/statuspoint7.png" class="stat-icon" />
             <span class="label">Status Point</span>
-            <input value="48" readonly />
+            <input class="status-value" value="48" readonly />
           </div>
 
           <div class="table-row">
@@ -396,7 +396,8 @@
       </div>
     </div>
 
-    <script src="js/str-function.js"></script>
+    <script src="js/JsForUI/UI.js"></script>
+    <script src="js/formulas/combat-system.js"></script>
+    <script src="js/formulas/stat-system.js"></script>
   </body>
 </html>
-  
