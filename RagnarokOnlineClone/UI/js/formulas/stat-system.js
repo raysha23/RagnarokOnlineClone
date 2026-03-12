@@ -43,6 +43,7 @@ function getTotalCostToReachStat(currentStat, targetStat) {
 
 const character = {
   baseLevel: 1,
+  job: "novice", // default job to avoid undefined lookups
   stats: {
     str: 1,
     agi: 1,
@@ -52,6 +53,7 @@ const character = {
     luk: 1,
   },
   availablePoints: 0,
+  
 };
 
 // ===================================================================
@@ -62,6 +64,9 @@ let elements = {};
 
 function initializeElements() {
   // ================= COMBAT =================
+  elements.hpRegenValue = document.querySelector(".hp-regen-value");
+  elements.spRegenValue = document.querySelector(".sp-regen-value");
+  
   elements.attackInput = document.querySelector(".atk-value");
 
   elements.MinmagicAttackInput = document.querySelector(".matk-min");
@@ -214,17 +219,40 @@ function updateUI() {
     minusBtn.disabled = currentValue <= 1;
   });
 
-  // ================= HP BAR =================
+  // ================= HP & SP BARS =================
+  // calculate values from combatStats (uses jobData internally)
   const maxHP = combatStats.maxHP;
-  const currentHP = Math.min(maxHP, Math.floor(maxHP * 0.85)); // simulate current HP
+  const maxSP = combatStats.maxSP;
 
-  const hpFill = document.querySelector(".hp-fill");
-  hpFill.style.width = `${Math.floor((currentHP / maxHP) * 100)}%`;
+  // a placeholder for current values; you could maintain these separately later
+  const currentHP = maxHP;
+  const currentSP = maxSP;
 
   const hpText = document.querySelector(
     ".vital-stats .bar-row:first-child .bar-text-input",
   );
-  hpText.value = `${currentHP.toLocaleString()} / ${maxHP.toLocaleString()}`;
+  if (hpText)
+    hpText.value = `${currentHP.toLocaleString()} / ${maxHP.toLocaleString()}`;
+
+  const spText = document.querySelector(
+    ".vital-stats .bar-row:nth-child(2) .bar-text-input",
+  );
+  if (spText)
+    spText.value = `${currentSP.toLocaleString()} / ${maxSP.toLocaleString()}`;
+
+  // ================= OTHER SYSTEMS =================
+  const weightLimit = combatStats.weightLimit;
+  const hpRegen = combatStats.hpRegen;
+  const spRegen = combatStats.spRegen;
+
+  const weightEl = document.querySelector(".weight-box");
+  if (weightEl) weightEl.textContent = weightLimit;
+
+  const regenEls = document.querySelectorAll(".regen-value");
+  if (regenEls.length >= 2) {
+    regenEls[0].textContent = hpRegen;
+    regenEls[1].textContent = spRegen;
+  }
 }
 
 // ===================================================================

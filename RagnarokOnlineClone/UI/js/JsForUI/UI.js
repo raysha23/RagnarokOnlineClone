@@ -221,6 +221,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (heroSelection && heroSelectionImages[job])
                 heroSelection.src = heroSelectionImages[job];
 
+            // track chosen job on the character model used by the formulas
+            if (typeof character !== 'undefined') {
+                character.job = job;
+            }
+            // recalc stats (HP/SP will now use jobData)
+            if (typeof updateUI === 'function') {
+                updateUI();
+            }
+
             initializeHero(job);
             animateInnates();
             updateDescription(job);

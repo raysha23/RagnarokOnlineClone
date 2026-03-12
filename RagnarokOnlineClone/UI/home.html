@@ -39,7 +39,7 @@
           <div class="bar-row">
             <div class="bar-label">HP</div>
             <div class="bar-bg">
-              <div class="bar-fill hp-fill" style="width: 85%"></div>
+              <div class="bar-fill hp-fill"></div>
             </div>
             <input
               type="text"
@@ -52,7 +52,7 @@
           <div class="bar-row">
             <div class="bar-label">SP</div>
             <div class="bar-bg">
-              <div class="bar-fill sp-fill" style="width: 70%"></div>
+              <div class="bar-fill sp-fill"></div>
             </div>
             <input
               type="text"
@@ -69,8 +69,8 @@
           <span class="regen-label"
             >Natural <span class="hp-text">HP</span> Regen:</span
           >
-          <span class="regen-value">1</span>
-          <span class="regen-detail">per 6s standing (per 3s sitting)</span>
+          <span class="hp-regen-value">1</span>
+          <span class="regen-detail">&nbsp; per 6s standing (per 3s sitting)</span>
 
           <span class="weight-group">
             Weight: <span class="weight-box">2030</span>
@@ -80,8 +80,8 @@
           <span class="regen-label"
             >Natural <span class="sp-text">SP</span> Regen:</span
           >
-          <span class="regen-value">1</span>
-          <span class="regen-detail">per 8s standing (per 4s sitting)</span>
+          <span class="sp-regen-value">1</span>
+          <span class="regen-detail">&nbsp; per 8s standing (per 4s sitting)</span>
         </div>
       </div>
 
@@ -210,9 +210,9 @@
       <div class="abilities-section">
         <div class="abilities-icons">
           <div class="innate-left">
-            <img src="images/novice1.png" alt="Talents" />
-            <img src="images/novice2.png" alt="Innate Icon" />
-            <img src="images/novice3.png" alt="Dragon Slave" />
+            <img src="images/novice11.png" alt="Talents" />
+            <img src="images/novice22.png" alt="Innate Icon" />
+            <img src="images/novice33.png" alt="Dragon Slave" />
           </div>
         </div>
       </div>
@@ -395,9 +395,13 @@
         </div>
       </div>
     </div>
+    <script src="js/data/job-data.js"></script>
 
-    <script src="js/JsForUI/UI.js"></script>
     <script src="js/formulas/combat-system.js"></script>
     <script src="js/formulas/stat-system.js"></script>
+    <script src="js/formulas/weapon-system.js"></script>
+
+    <!-- For UI javascript -->
+    <script src="js/JsForUI/UI.js"></script>
   </body>
 </html>

@@ -1,42 +1,166 @@
+// ======================================
+// CORE FORMULAS
+// ======================================
+
+function calculateHP(character) {
+  const level = character.baseLevel;
+  const job = character.job;
+  const VIT = character.stats?.vit || 0;
+  const data = jobData[job];
+  if (!data) return 0;
+
+  // 1️⃣ Base HP
+  let BASE_HP = 35 + level * (data.hpB || 5); // multiply by level once
+
+  for (let i = 2; i <= level; i++) {
+    BASE_HP += Math.round((data.hpA || 0) * i); // cumulative growth
+  }
+
+  // 2️⃣ Max HP
+  let MAX_HP = Math.floor(BASE_HP * (1 + VIT * 0.01) * (data.TRANS_MOD || 1));
+
+  // 3️⃣ Additive modifiers
+  MAX_HP += data.HP_MOD_A || 0;
+
+  // 4️⃣ Multiplicative modifiers
+  MAX_HP = Math.floor(MAX_HP * (1 + (data.HP_MOD_B || 0) * 0.01));
+
+  return MAX_HP;
+}
+function calculateSP(character) {
+  const level = character.baseLevel;
+  const job = character.job;
+  const INT = character.stats?.int || 0; // “INT” in your snippet
+  const data = jobData[job];
+
+  if (!data) return 0;
+
+  // 1️⃣ BASE_SP = baseSP + level * spB
+  let Base_SP = data.baseSP + level * data.spB;
+
+  // 2️⃣ MAX_SP = Math.floor(Base_SP * (1 + INT * 0.01))
+  let MAX_SP = Math.floor(Base_SP * (1 + INT * 0.01));
+
+  // 3️⃣ add flat modifier
+  MAX_SP += data.SP_MOD_A || 0;
+
+  // 4️⃣ apply percent modifier
+  MAX_SP = Math.floor(MAX_SP * (1 + (data.SP_MOD_B || 0) * 0.01));
+
+  // 5️⃣ transformation multiplier
+  MAX_SP = Math.floor(MAX_SP * (data.TRANS_MOD || 1));
+
+  return MAX_SP;
+}
+
+function calculateHPRegen(character) {
+  const maxHP = character.maxHP;
+  const vit = character.stats.vit;
+  const hprMod = character.hprMod || 0; // sum of modifiers
+
+  // Step 1: Base value from MAX_HP (minimum 1)
+  let HPR = Math.max(1, Math.floor(maxHP / 200));
+
+  // Step 2: Add VIT bonus
+  HPR += Math.floor(vit / 5);
+
+  // Step 3: Apply modifiers
+  HPR = Math.floor(HPR * (1 + hprMod * 0.01));
+
+  return HPR;
+}
+
+function calculateSPRegen(character) {
+  const maxSP = character.maxSP;
+  const intStat = character.stats.int;
+  const sprMod = character.sprMod || 0; // sum of modifiers
+
+  let SPR = 1;
+
+  // +1 for every 100 SP
+  SPR += Math.floor(maxSP / 100);
+
+  // +1 for every 6 INT
+  SPR += Math.floor(intStat / 6);
+
+  // Extra bonus if INT >= 120
+  if (intStat >= 120) {
+    SPR += Math.floor(intStat / 2 - 56);
+  }
+
+  // Apply modifiers
+  SPR = Math.floor(SPR * (1 + sprMod * 0.01));
+
+  return SPR;
+}
+function calculateWeight(character) {
+  const str = character.stats?.str || 0;
+  const job = character.job;
+
+  const data = jobData[job];
+  if (!data) {
+    console.warn(`Unknown job "${job}" encountered in calculateWeight.`);
+    return 2000 + str * 30;
+  }
+
+  const jobWeight = data.weight || 0;
+
+  // optional modifiers
+  const enlargeWeight = character.skills?.enlargeWeight || 0; // merchant skill level
+  const gymPass = character.mods?.gymPass || 0; // kafra gym pass levels
+  const pecoRide = character.mods?.pecoRide ? 1000 : 0;
+
+  const WGT_MOD = (enlargeWeight + gymPass) * 200 + pecoRide;
+
+  let MAX_WGT = 2000;
+  MAX_WGT += 30 * str;
+  MAX_WGT += jobWeight;
+  MAX_WGT += WGT_MOD;
+
+  return MAX_WGT;
+}
+
+function calculateASPD(character) {
+  const agi = character.stats.agi;
+  const dex = character.stats.dex;
+
+  const job = character.job;
+  const weapon = weaponSelect.value;
+
+  const data = jobData[job];
+  if (!data) {
+    console.warn(
+      `Unknown job "${job}" encountered in calculateASPD, defaulting aspd.`,
+    );
+    const aspd = agi * 0.4 + dex * 0.2 + (weaponData[weapon]?.aspdPenalty || 0);
+    return Math.floor(aspd);
+  }
+  const base = data.aspd;
+  const weaponPenalty = weaponData[weapon]?.aspdPenalty || 0;
+
+  const aspd = base + agi * 0.4 + dex * 0.2 + weaponPenalty;
+
+  return Math.floor(aspd);
+}
+
+// ======================================
+// MAIN COMBAT STAT CALCULATIONS
+// ======================================
+
 function calculateCombatStats(character) {
   const { str, agi, vit, int, dex, luk } = character.stats;
   const level = character.baseLevel;
 
   // ----------------------------
-  // STR (Strength)
+  // ATTACK
   const strBonus = Math.floor(str / 10) ** 2;
-
-  // DEX melee bonus (every 5 DEX = +1 ATK)
   const dexMeleeBonus = Math.floor(dex / 5);
-
-  // LUK bonus to attack (every 5 LUK = +1 ATK)
   const lukAttackBonus = Math.floor(luk / 5);
 
   const attack = str + strBonus + dexMeleeBonus + lukAttackBonus;
-  const weightLimit = str * 30;
 
   // ----------------------------
-  // AGI (Agility)
-  // Base flee: level + AGI
-  let flee = level + agi;
-
-  // LUK contributes to flee rate (every 10 LUK = +1)
-  const fleeBonusFromLuk = Math.floor(luk / 10);
-  flee += fleeBonusFromLuk;
-
-  // ----------------------------
-  // ADDED: DEX minor ASPD bonus
-  const dexAspdBonus = Math.floor(dex / 20);
-  const attackSpeed = 150 + Math.floor(agi / 5) + dexAspdBonus;
-
-  // ----------------------------
-  // VIT (Vitality)
-  const defense = vit;
-  const baseHP = 1000;
-  const maxHP = Math.floor(baseHP * (1 + vit * 0.01));
-
-  // ----------------------------
-  // INT (Intelligence)
+  // MAGIC ATTACK
   const baseMatk = int;
   const minMatkBonus = Math.floor(int / 7) ** 2;
   const maxMatkBonus = Math.floor(int / 5) ** 2;
@@ -44,22 +168,36 @@ function calculateCombatStats(character) {
   const matkMin = baseMatk + minMatkBonus;
   const matkMax = baseMatk + maxMatkBonus;
 
-  const mdefBase = int;
-
   // ----------------------------
-  // SP Calculations
-  const baseSP = 500;
-  const maxSP = Math.floor(baseSP * (1 + int * 0.01));
-  const spRegen = Math.floor(int / 6);
-  const spRecoveryBonusPercent = int;
-
-  // ----------------------------
-  // DEX (Dexterity)
+  // HIT
   const hit = level + dex;
 
   // ----------------------------
-  // LUK (Luck)
-  const crit = Math.max(1, Math.floor(luk * 0.3) + 1); // base 1 + LUK effect
+  // CRITICAL
+  const crit = Math.max(1, Math.floor(luk * 0.3) + 1);
+
+  // ----------------------------
+  // FLEE
+  const fleeBase = level + agi;
+  const fleeBonusFromLuk = Math.floor(luk / 10);
+
+  const flee = fleeBase + fleeBonusFromLuk;
+
+  // ----------------------------
+  // DEF / MDEF
+  const defense = vit;
+  const mdefBase = int;
+
+  // ----------------------------
+  // OTHER SYSTEMS
+  const maxHP = calculateHP(character);
+  const maxSP = calculateSP(character);
+
+  const hpRegen = calculateHPRegen(character, maxHP);
+  const spRegen = calculateSPRegen(character, maxSP);
+
+  const weightLimit = calculateWeight(character);
+  const attackSpeed = calculateASPD(character);
 
   return {
     attack,
@@ -67,14 +205,77 @@ function calculateCombatStats(character) {
     matkMax,
     mdefBase,
     hit,
-    flee, // Total Flee including LUK bonus
+    flee,
     crit,
     defense,
     attackSpeed,
     weightLimit,
     maxHP,
     maxSP,
+    hpRegen,
     spRegen,
-    spRecoveryBonusPercent,
   };
+}
+
+// ======================================
+// UPDATE UI
+// ======================================
+
+function updateUI(character) {
+  const stats = calculateCombatStats(character);
+
+  // HP / SP Bars – use the same logic as stat-system.js so output matches
+  const maxHP = stats.maxHP;
+  const maxSP = stats.maxSP;
+  const currentHP = Math.min(maxHP, Math.floor(maxHP * 0.85));
+  const currentSP = Math.min(maxSP, Math.floor(maxSP * 0.85));
+
+  // const hpFill = document.querySelector(".hp-fill");
+  // if (hpFill) hpFill.style.width = `${Math.floor((currentHP / maxHP) * 100)}%`;
+  // const spFill = document.querySelector(".sp-fill");
+  // if (spFill) spFill.style.width = `${Math.floor((currentSP / maxSP) * 100)}%`;
+
+  const hpText = document.querySelector(
+    ".vital-stats .bar-row:first-child .bar-text-input",
+  );
+  if (hpText)
+    hpText.value = `${currentHP.toLocaleString()} / ${maxHP.toLocaleString()}`;
+
+  const spText = document.querySelector(
+    ".vital-stats .bar-row:nth-child(2) .bar-text-input",
+  );
+  if (spText)
+    spText.value = `${currentSP.toLocaleString()} / ${maxSP.toLocaleString()}`;
+
+  // Regen
+  document.querySelector(".hp-regen-value").textContent = "dsa"+stats.hpRegen;
+  document.querySelector(".sp-regen-value").textContent = stats.spRegen;
+
+  // Weight
+  document.querySelector(".weight-box").textContent = stats.weightLimit;
+
+  // ASPD
+  document.querySelector(".aspd-value").value = stats.attackSpeed;
+
+  // ATK
+  document.querySelector(".atk-value").value = stats.attack;
+
+  // MATK
+  document.querySelector(".matk-min").value = stats.matkMin;
+  document.querySelector(".matk-max").value = stats.matkMax;
+
+  // HIT
+  document.querySelector(".hit-value").value = stats.hit;
+
+  // CRIT
+  document.querySelector(".crit-value").value = stats.crit;
+
+  // DEF
+  document.querySelector(".def-base").value = stats.defense;
+
+  // MDEF
+  document.querySelector(".mdef-base").value = stats.mdefBase;
+
+  // FLEE
+  document.querySelector(".flee-base").value = stats.flee;
 }
