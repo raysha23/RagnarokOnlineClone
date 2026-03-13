@@ -36,7 +36,7 @@ body {
   justify-content: flex-start;
   width: 500px;
   position: relative;
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
 .stats-master {
@@ -561,7 +561,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start; /* 🔥 change this */
-  padding-top: 100px;
+  padding-top: 30px;
 }
 
 .home-container {
@@ -1239,7 +1239,9 @@ body {
 
 /* Dropdown */
 .game-dropdown {
-  width: 100%;
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
   padding: 6px 10px;
 
   background: rgba(0, 0, 0, 0.35);
@@ -1358,4 +1360,57 @@ body {
   height: 48px;
 
   transform: translateX(15px); /* same slide as others */
+}
+
+
+
+
+
+.job-level-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 14px;
+
+  background: rgba(106, 169, 255, 0.06); /* same as weapon UI */
+  border: 1px solid rgba(106, 169, 255, 0.25);
+  border-radius: 8px;
+
+  backdrop-filter: blur(4px);
+
+  box-shadow:
+    0 0 6px rgba(159, 215, 255, 0.15),
+    inset 0 0 6px rgba(106, 169, 255, 0.1);
+}
+
+.job-level-container h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #e0e0e0;
+  font-family: "Reaver", sans-serif;
+}
+
+.job-level-container select {
+  background: rgba(106, 169, 255, 0.06);
+  color: #f5f5f5;
+  border: 1px solid rgba(106, 169, 255, 0.25);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-family: "Reaver", sans-serif;
+  cursor: pointer;
+  height: 26px;
+
+  box-shadow:
+    0 0 4px rgba(159, 215, 255, 0.12),
+    inset 0 0 4px rgba(106, 169, 255, 0.08);
+
+  transition: all 0.2s ease;
+}
+
+.job-level-container select:hover {
+  border-color: rgba(159, 215, 255, 0.6);
+  box-shadow:
+    0 0 6px rgba(159, 215, 255, 0.3),
+    inset 0 0 4px rgba(106, 169, 255, 0.12);
 }

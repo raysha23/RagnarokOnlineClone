@@ -128,22 +128,6 @@ function calculateASPD(character) {
   const SM = character.speedMod || 0;
 
   const aspdValue = 200 - (WD - delayReduction) * (1 - SM);
-
-  // Log all the intermediate steps
-  console.log(
-    `ASPD Calculation:
-    Job: ${job}
-    Weapon: ${weapon}
-    BTBA: ${btba}
-    WD: ${WD}
-    AGI Bonus: ${Math.round((WD * agi) / 25)}
-    DEX Bonus: ${Math.round((WD * dex) / 100)}
-    Total Bonus (rounded): ${totalBonus}
-    Delay Reduction: ${delayReduction.toFixed(2)}
-    Speed Modifier (SM): ${SM}
-    Final ASPD: ${Math.floor(aspdValue)}`,
-  );
-
   return Math.floor(aspdValue);
 }
 // ======================================
