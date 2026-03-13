@@ -134,21 +134,28 @@
       </div>
     </div>
     
-    <div class="job-level-container">
-      <div class="title-container">
-        <h3>Job Level: </h3>
+    <div class="weapon-system-container job-level-box">
+
+      <div class="label-text">
+        <span class="main">JOB LEVEL</span>
       </div>
-      <select name="job-level-value">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-      </select>
+    
+      <div class="custom-select-container job-level-select">
+        <select class="game-dropdown" id="job-level">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+        </select>
+    
+        <div class="dropdown-arrow"></div>
+      </div>
+    
     </div>
     <div class="hero-selection">
       <img src="images/swordsman.png" alt="selection" />
@@ -178,6 +185,8 @@
           <option value="Rod & Staff">Rod & Staff</option>
           <option value="Two-handed Staff">Two-handed Staff</option>
         </select>
+
+        <div class="dropdown-arrow"></div>
       </div>
     </div>
 
@@ -395,7 +404,7 @@
 
   <script src="js/formulas/combat-system.js"></script>
   <script src="js/formulas/stat-system.js"></script>
-
+  <script src="js/formulas/job-level-handler.js"></script>
   <!-- For UI javascript -->
   <script src="js/JsForUI/UI.js"></script>
 </body>

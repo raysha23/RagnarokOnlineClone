@@ -1207,6 +1207,8 @@ body {
   box-shadow:
     0 0 6px rgba(159, 215, 255, 0.15),
     inset 0 0 6px rgba(106, 169, 255, 0.1);
+
+    
 }
 
 /* Label */
@@ -1374,7 +1376,7 @@ body {
   padding: 6px 14px;
 
   background: rgba(106, 169, 255, 0.06); /* same as weapon UI */
-  border: 1px solid rgba(106, 169, 255, 0.25);
+   border: 1px solid transparent; /* keeps the border “there” but invisible */
   border-radius: 8px;
 
   backdrop-filter: blur(4px);
@@ -1394,7 +1396,7 @@ body {
 .job-level-container select {
   background: rgba(106, 169, 255, 0.06);
   color: #f5f5f5;
-  border: 1px solid rgba(106, 169, 255, 0.25);
+ border: 1px solid transparent; /* keeps the border “there” but invisible */
   border-radius: 6px;
   padding: 2px 6px;
   font-family: "Reaver", sans-serif;
@@ -1413,4 +1415,52 @@ body {
   box-shadow:
     0 0 6px rgba(159, 215, 255, 0.3),
     inset 0 0 4px rgba(106, 169, 255, 0.12);
+}
+
+/* Make Job Level dropdown shorter */
+.job-level-select {
+  width: 70px;
+}
+
+.job-level-select .game-dropdown {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+}
+
+
+
+.job-level-box {
+  background: transparent;       /* removes background color */
+  border: 1px solid transparent; /* makes border fully invisible */
+  box-shadow: none;
+  position: absolute;
+  top: 720px;   /* adjust this to move up or down */
+  left: 370px;  /* adjust horizontal position if needed */
+}
+
+
+/* Make JOB LEVEL label stay in one line */
+.job-level-box .label-text {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+
+.weapon-select-wrapper {
+  position: relative;
+}
+
+.weapon-select-wrapper .dropdown-arrow {
+  top: 58%;        /* move arrow slightly lower */
+  transform: translateY(-50%);
+}
+
+
+
+.weapon-system-container.job-level-box {
+  margin-top: -700px; /* move it 20px higher; adjust as needed */
+  margin-left: 1250px;
+  /* optional: keep relative positioning */
 }
