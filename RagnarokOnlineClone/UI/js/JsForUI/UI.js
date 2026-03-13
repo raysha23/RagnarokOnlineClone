@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         archer: ["Hand","Dagger","Bow"],
         acolyte: ["Hand","One-handed Mace","Two-handed Mace","Rod & Staff","Two-handed Staff"],
         merchant: ["Hand","Dagger","One-handed Sword","One-handed Axe","Two-handed Axe","One-handed Mace","Two-handed Mace"],
-        thief: ["Hand","Dagger","One-handed Sword","One-handed Axe"]
+        thief: ["Hand","Dagger","One-handed Sword","One-handed Axe", "Bow"]
     };
 
     function updateWeaponDropdown(job) {
