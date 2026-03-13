@@ -12,7 +12,6 @@ function getPointsForLevel(level) {
   if (level >= 95) return 22;
   return Math.floor((level - 1) / 5) + 3;
 }
-
 function getTotalStatPointsForLevel(level) {
   const STARTING_STATUS_POINTS = 48;
 
@@ -24,11 +23,9 @@ function getTotalStatPointsForLevel(level) {
   }
   return total;
 }
-
 function getStatIncreaseCost(currentStatValue) {
   return Math.min(Math.floor((currentStatValue - 1) / 10) + 2, 11);
 }
-
 function getTotalCostToReachStat(currentStat, targetStat) {
   let totalCost = 0;
   for (let i = currentStat; i < targetStat; i++) {
@@ -36,11 +33,9 @@ function getTotalCostToReachStat(currentStat, targetStat) {
   }
   return totalCost;
 }
-
 // ===================================================================
 // CHARACTER STATE
 // ===================================================================
-
 const character = {
   baseLevel: 1,
   job: "novice", // default job to avoid undefined lookups
@@ -55,17 +50,13 @@ const character = {
   availablePoints: 0,
   
 };
-
 // ===================================================================
 // DOM ELEMENTS
 // ===================================================================
-
 let elements = {};
-
 function initializeElements() {
   // ================= COMBAT =================
-  elements.hpRegenValue = document.querySelector(".hp-regen-value");
-  elements.spRegenValue = document.querySelector(".sp-regen-value");
+ 
   
   elements.attackInput = document.querySelector(".atk-value");
 
@@ -117,7 +108,6 @@ function initializeElements() {
     ".stats-top .column:nth-child(3) .value",
   );
 }
-
 // ===================================================================
 // CORE LOGIC
 // ===================================================================
@@ -132,7 +122,6 @@ function calculateRemainingPointsWithChange(statName, newValue) {
 
   return totalPoints - spentPoints;
 }
-
 function trySetStat(statName, newValue) {
   newValue = Math.max(1, Math.min(99, parseInt(newValue) || 1));
 
@@ -145,7 +134,6 @@ function trySetStat(statName, newValue) {
 
   updateUI();
 }
-
 // ===================================================================
 // LEVEL UPDATE
 // ===================================================================
@@ -164,13 +152,13 @@ function updateLevel(newLevel) {
 
   updateUI();
 }
-
 // ===================================================================
 // UI UPDATE
 // ===================================================================
 
 function updateUI() {
   // Use the external combat-system.js formulas
+  console.log("updateUI triggered Stat system");
   const combatStats = calculateCombatStats(character);
 
   // ================= STAT VALUES =================
@@ -248,17 +236,20 @@ function updateUI() {
   const weightEl = document.querySelector(".weight-box");
   if (weightEl) weightEl.textContent = weightLimit;
 
-  const regenEls = document.querySelectorAll(".regen-value");
-  if (regenEls.length >= 2) {
-    regenEls[0].textContent = hpRegen;
-    regenEls[1].textContent = spRegen;
+  // ================= REGEN =================
+  const hpRegenEl = document.querySelector(".hp-regen-value");
+  if (hpRegenEl) {
+    hpRegenEl.textContent = hpRegen;
+  }
+
+  const spRegenEl = document.querySelector(".sp-regen-value");
+  if (spRegenEl) {
+    spRegenEl.textContent = spRegen;
   }
 }
-
 // ===================================================================
 // EVENTS
 // ===================================================================
-
 function attachEventListeners() {
   const statOrder = ["str", "agi", "vit", "int", "dex", "luk"];
 
@@ -353,7 +344,6 @@ function attachEventListeners() {
     }
   });
 }
-
 // ===================================================================
 // INIT
 // ===================================================================

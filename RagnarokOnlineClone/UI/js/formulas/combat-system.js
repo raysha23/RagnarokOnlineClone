@@ -52,43 +52,34 @@ function calculateSP(character) {
 
   return MAX_SP;
 }
-
-function calculateHPRegen(character) {
-  const maxHP = character.maxHP;
+function calculateHPRegen(maxHP, character) {
   const vit = character.stats.vit;
-  const hprMod = character.hprMod || 0; // sum of modifiers
+  const hprMod = character.hprMod || 0;
 
-  // Step 1: Base value from MAX_HP (minimum 1)
-  let HPR = Math.max(1, Math.floor(maxHP / 200));
+  // base regen
+  let HPR = 1 + Math.floor(maxHP / 200);
 
-  // Step 2: Add VIT bonus
+  // vit bonus
   HPR += Math.floor(vit / 5);
 
-  // Step 3: Apply modifiers
+  // modifiers
   HPR = Math.floor(HPR * (1 + hprMod * 0.01));
 
   return HPR;
 }
-
-function calculateSPRegen(character) {
-  const maxSP = character.maxSP;
+function calculateSPRegen(maxSP, character) {
   const intStat = character.stats.int;
-  const sprMod = character.sprMod || 0; // sum of modifiers
+  const sprMod = character.sprMod || 0;
 
   let SPR = 1;
 
-  // +1 for every 100 SP
   SPR += Math.floor(maxSP / 100);
-
-  // +1 for every 6 INT
   SPR += Math.floor(intStat / 6);
 
-  // Extra bonus if INT >= 120
   if (intStat >= 120) {
     SPR += Math.floor(intStat / 2 - 56);
   }
 
-  // Apply modifiers
   SPR = Math.floor(SPR * (1 + sprMod * 0.01));
 
   return SPR;
@@ -119,7 +110,6 @@ function calculateWeight(character) {
 
   return MAX_WGT;
 }
-
 function calculateASPD(character) {
   const agi = character.stats.agi;
   const dex = character.stats.dex;
@@ -142,11 +132,9 @@ function calculateASPD(character) {
 
   return Math.floor(aspd);
 }
-
 // ======================================
 // MAIN COMBAT STAT CALCULATIONS
 // ======================================
-
 function calculateCombatStats(character) {
   const { str, agi, vit, int, dex, luk } = character.stats;
   const level = character.baseLevel;
@@ -193,8 +181,8 @@ function calculateCombatStats(character) {
   const maxHP = calculateHP(character);
   const maxSP = calculateSP(character);
 
-  const hpRegen = calculateHPRegen(character, maxHP);
-  const spRegen = calculateSPRegen(character, maxSP);
+  const hpRegen = calculateHPRegen(maxHP, character);
+  const spRegen = calculateSPRegen(maxSP, character);
 
   const weightLimit = calculateWeight(character);
   const attackSpeed = calculateASPD(character);
@@ -216,66 +204,8 @@ function calculateCombatStats(character) {
     spRegen,
   };
 }
-
 // ======================================
 // UPDATE UI
 // ======================================
 
-function updateUI(character) {
-  const stats = calculateCombatStats(character);
 
-  // HP / SP Bars – use the same logic as stat-system.js so output matches
-  const maxHP = stats.maxHP;
-  const maxSP = stats.maxSP;
-  const currentHP = Math.min(maxHP, Math.floor(maxHP * 0.85));
-  const currentSP = Math.min(maxSP, Math.floor(maxSP * 0.85));
-
-  // const hpFill = document.querySelector(".hp-fill");
-  // if (hpFill) hpFill.style.width = `${Math.floor((currentHP / maxHP) * 100)}%`;
-  // const spFill = document.querySelector(".sp-fill");
-  // if (spFill) spFill.style.width = `${Math.floor((currentSP / maxSP) * 100)}%`;
-
-  const hpText = document.querySelector(
-    ".vital-stats .bar-row:first-child .bar-text-input",
-  );
-  if (hpText)
-    hpText.value = `${currentHP.toLocaleString()} / ${maxHP.toLocaleString()}`;
-
-  const spText = document.querySelector(
-    ".vital-stats .bar-row:nth-child(2) .bar-text-input",
-  );
-  if (spText)
-    spText.value = `${currentSP.toLocaleString()} / ${maxSP.toLocaleString()}`;
-
-  // Regen
-  document.querySelector(".hp-regen-value").textContent = "dsa"+stats.hpRegen;
-  document.querySelector(".sp-regen-value").textContent = stats.spRegen;
-
-  // Weight
-  document.querySelector(".weight-box").textContent = stats.weightLimit;
-
-  // ASPD
-  document.querySelector(".aspd-value").value = stats.attackSpeed;
-
-  // ATK
-  document.querySelector(".atk-value").value = stats.attack;
-
-  // MATK
-  document.querySelector(".matk-min").value = stats.matkMin;
-  document.querySelector(".matk-max").value = stats.matkMax;
-
-  // HIT
-  document.querySelector(".hit-value").value = stats.hit;
-
-  // CRIT
-  document.querySelector(".crit-value").value = stats.crit;
-
-  // DEF
-  document.querySelector(".def-base").value = stats.defense;
-
-  // MDEF
-  document.querySelector(".mdef-base").value = stats.mdefBase;
-
-  // FLEE
-  document.querySelector(".flee-base").value = stats.flee;
-}
