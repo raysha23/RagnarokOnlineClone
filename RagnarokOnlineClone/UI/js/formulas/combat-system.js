@@ -113,24 +113,38 @@ function calculateWeight(character) {
 function calculateASPD(character) {
   const agi = character.stats.agi;
   const dex = character.stats.dex;
-
   const job = character.job;
-  const weapon = weaponSelect.value;
+  const weapon = character.weapon;
 
-  const data = jobData[job];
-  if (!data) {
-    console.warn(
-      `Unknown job "${job}" encountered in calculateASPD, defaulting aspd.`,
-    );
-    const aspd = agi * 0.4 + dex * 0.2 + (weaponData[weapon]?.aspdPenalty || 0);
-    return Math.floor(aspd);
-  }
-  const base = data.aspd;
-  const weaponPenalty = weaponData[weapon]?.aspdPenalty || 0;
+  const btba = weaponData[job]?.[weapon] || 1.5;
+  const WD = btba * 50;
 
-  const aspd = base + agi * 0.4 + dex * 0.2 + weaponPenalty;
+  // Sum AGI and DEX bonuses first, then round
+  const totalBonus = Math.round((WD * agi) / 25 + (WD * dex) / 100);
 
-  return Math.floor(aspd);
+  // Divide by 10 for delay reduction
+  const delayReduction = totalBonus / 10;
+
+  const SM = character.speedMod || 0;
+
+  const aspdValue = 200 - (WD - delayReduction) * (1 - SM);
+
+  // Log all the intermediate steps
+  console.log(
+    `ASPD Calculation:
+    Job: ${job}
+    Weapon: ${weapon}
+    BTBA: ${btba}
+    WD: ${WD}
+    AGI Bonus: ${Math.round((WD * agi) / 25)}
+    DEX Bonus: ${Math.round((WD * dex) / 100)}
+    Total Bonus (rounded): ${totalBonus}
+    Delay Reduction: ${delayReduction.toFixed(2)}
+    Speed Modifier (SM): ${SM}
+    Final ASPD: ${Math.floor(aspdValue)}`,
+  );
+
+  return Math.floor(aspdValue);
 }
 // ======================================
 // MAIN COMBAT STAT CALCULATIONS

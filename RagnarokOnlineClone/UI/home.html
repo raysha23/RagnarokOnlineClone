@@ -70,7 +70,9 @@
             >Natural <span class="hp-text">HP</span> Regen:</span
           >
           <span class="hp-regen-value">1</span>
-          <span class="regen-detail">&nbsp; per 6s standing (per 3s sitting)</span>
+          <span class="regen-detail"
+            >&nbsp; per 6s standing (per 3s sitting)</span
+          >
 
           <span class="weight-group">
             Weight: <span class="weight-box">2030</span>
@@ -81,7 +83,9 @@
             >Natural <span class="sp-text">SP</span> Regen:</span
           >
           <span class="sp-regen-value">1</span>
-          <span class="regen-detail">&nbsp; per 8s standing (per 4s sitting)</span>
+          <span class="regen-detail"
+            >&nbsp; per 8s standing (per 4s sitting)</span
+          >
         </div>
       </div>
 
@@ -175,18 +179,16 @@
 
         <div class="weapon-select-wrapper">
           <span class="slot-indicator">RIGHT:</span>
-          <div class="custom-select-container">
-            <select id="weapon-select" class="game-dropdown">
-              <option value="hand">Hand</option>
-              <option value="dagger">Dagger</option>
-              <option value="sword">One-Handed Sword</option>
-              <option value="sword">One-Handed Axe</option>
-              <option value="2hsword">Two-Handed Mace</option>
-              <option value="bow">Rod & Staff</option>
-              <option value="staff">Two-Handed Staff</option>
-            </select>
-            <div class="dropdown-arrow"></div>
-          </div>
+          <select id="weapon-select" class="game-dropdown">
+            <option value="Hand">Hand</option>
+            <option value="Dagger">Dagger</option>
+            <option value="One-handed Sword">One-handed Sword</option>
+            <option value="One-handed Axe">One-handed Axe</option>
+            <option value="One-handed Mace">One-handed Mace</option>
+            <option value="Two-handed Mace">Two-handed Mace</option>
+            <option value="Rod & Staff">Rod & Staff</option>
+            <option value="Two-handed Staff">Two-handed Staff</option>
+          </select>
         </div>
       </div>
 
@@ -396,10 +398,10 @@
       </div>
     </div>
     <script src="js/data/job-data.js"></script>
+    <script src="js/data/weapon-data.js"></script>
 
     <script src="js/formulas/combat-system.js"></script>
     <script src="js/formulas/stat-system.js"></script>
-    <script src="js/formulas/weapon-system.js"></script>
 
     <!-- For UI javascript -->
     <script src="js/JsForUI/UI.js"></script>

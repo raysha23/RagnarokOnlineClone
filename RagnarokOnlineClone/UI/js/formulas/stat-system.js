@@ -48,7 +48,6 @@ const character = {
     luk: 1,
   },
   availablePoints: 0,
-  
 };
 // ===================================================================
 // DOM ELEMENTS
@@ -56,8 +55,7 @@ const character = {
 let elements = {};
 function initializeElements() {
   // ================= COMBAT =================
- 
-  
+
   elements.attackInput = document.querySelector(".atk-value");
 
   elements.MinmagicAttackInput = document.querySelector(".matk-min");
@@ -107,7 +105,37 @@ function initializeElements() {
   elements.ptsReqDisplays = document.querySelectorAll(
     ".stats-top .column:nth-child(3) .value",
   );
+
+  // ================= WEAPON SELECT =================
+  // ================= WEAPON SELECT =================
+  elements.weaponSelect = document.getElementById("weapon-select");
+  if (elements.weaponSelect) {
+    // Initialize the character.weapon using the first available weapon for the job
+    const currentJobWeapons = weaponData[character.job];
+    const defaultWeapon = Object.keys(currentJobWeapons)[0]; // first weapon
+    character.weapon = defaultWeapon;
+
+    // Update UI to reflect initial weapon
+    elements.weaponSelect.value = defaultWeapon;
+    updateUI();
+
+    // Handle weapon change
+    elements.weaponSelect.addEventListener("change", (e) => {
+      const selectedValue = e.target.value;
+
+      // Ensure the selected value exists in weaponData for the current job
+      if (currentJobWeapons[selectedValue]) {
+        character.weapon = selectedValue; // exact key from weaponData
+        updateUI();
+      } else {
+        console.warn(
+          `Weapon "${selectedValue}" is not available for job "${character.job}".`,
+        );
+      }
+    });
+  }
 }
+
 // ===================================================================
 // CORE LOGIC
 // ===================================================================
