@@ -16,9 +16,13 @@ export const jobData = {
       weight: 0,
       aspd: 150,
     },
+
+    jobBonus: {},
+
     description:
       "Novices are the spark of potential. They are beginners who can grow into any class.",
   },
+
   swordsman: {
     stats: {
       hpA: 0.7,
@@ -34,9 +38,32 @@ export const jobData = {
       weight: 800,
       aspd: 155,
     },
+
+    jobBonus: {
+      2: { str: 1 },
+      6: { vit: 1 },
+      10: { dex: 1 },
+      14: { str: 1 },
+      18: { vit: 1 },
+      22: { dex: 1 },
+      26: { luk: 1 },
+      30: { agi: 1 },
+      33: { str: 1 },
+      36: { dex: 1 },
+      38: { vit: 1 },
+      40: { str: 1 },
+      42: { vit: 1 },
+      44: { luk: 1 },
+      46: { agi: 1 },
+      47: { str: 1 },
+      49: { str: 1 },
+      50: { str: 1 },
+    },
+
     description:
       "Swordsmen are strong melee fighters who excel in close combat.",
   },
+
   magician: {
     stats: {
       hpA: 0.3,
@@ -52,9 +79,32 @@ export const jobData = {
       weight: 200,
       aspd: 145,
     },
+
+    jobBonus: {
+      2: { int: 1 },
+      6: { dex: 1 },
+      10: { dex: 1 },
+      14: { int: 1 },
+      18: { agi: 1 },
+      22: { int: 1 },
+      26: { agi: 1 },
+      30: { luk: 1 },
+      33: { int: 1 },
+      36: { dex: 1 },
+      38: { int: 1 },
+      40: { agi: 1 },
+      42: { luk: 1 },
+      44: { int: 1 },
+      46: { int: 1 },
+      47: { agi: 1 },
+      49: { luk: 1 },
+      50: { int: 1 },
+    },
+
     description:
       "Magicians harness magical powers to deal elemental damage from afar.",
   },
+
   archer: {
     stats: {
       hpA: 0.5,
@@ -70,9 +120,32 @@ export const jobData = {
       weight: 600,
       aspd: 150,
     },
+
+    jobBonus: {
+      2: { dex: 1 },
+      6: { str: 1 },
+      10: { int: 1 },
+      14: { dex: 1 },
+      18: { dex: 1 },
+      22: { luk: 1 },
+      26: { agi: 1 },
+      30: { dex: 1 },
+      33: { agi: 1 },
+      36: { dex: 1 },
+      38: { str: 1 },
+      40: { str: 1 },
+      42: { dex: 1 },
+      44: { luk: 1 },
+      46: { vit: 1 },
+      47: { int: 1 },
+      49: { agi: 1 },
+      50: { dex: 1 },
+    },
+
     description:
       "Archers are expert ranged fighters, attacking from distance with precision.",
   },
+
   acolyte: {
     stats: {
       hpA: 0.4,
@@ -88,9 +161,26 @@ export const jobData = {
       weight: 400,
       aspd: 148,
     },
+
+    jobBonus: {
+      2: { luk: 1 },
+      4: { vit: 1 },
+      6: { int: 1 },
+      8: { dex: 1 },
+      15: { agi: 1 },
+      25: { str: 1 },
+      30: { vit: 2 },
+      35: { dex: 2 },
+      37: { int: 2 },
+      40: { str: 2 },
+      45: { luk: 3 },
+      50: { str: 3, vit: 3, int: 3, dex: 3, agi: 2, luk: 4 },
+    },
+
     description:
       "Acolytes are supportive healers and buffers, aiding their allies in battle.",
   },
+
   merchant: {
     stats: {
       hpA: 0.4,
@@ -106,9 +196,35 @@ export const jobData = {
       weight: 800,
       aspd: 150,
     },
+
+    jobBonus: {
+      2: { luk: 1 },
+      6: { vit: 1 },
+      19: { int: 1 },
+      23: { agi: 1 },
+      24: { dex: 1 },
+      25: { luk: 2 },
+      26: { str: 1, vit: 2 },
+      31: { dex: 2 },
+      32: { int: 2 },
+      33: { str: 1, agi: 2, vit: 2 },
+      34: { luk: 3 },
+      36: { dex: 2, vit: 3, int: 3 },
+      37: { luk: 3 },
+      38: { str: 2 },
+      39: { str: 3, dex: 3, int: 3 },
+      43: { dex: 3, int: 3 },
+      44: { agi: 2, vit: 3 },
+      46: { str: 3, luk: 4 },
+      47: { str: 3, vit: 3 },
+      49: { str: 3 },
+      50: { str: 3, dex: 3 },
+    },
+
     description:
       "Merchants excel in trade and resource management, with moderate combat ability.",
   },
+
   thief: {
     stats: {
       hpA: 0.5,
@@ -124,6 +240,28 @@ export const jobData = {
       weight: 400,
       aspd: 158,
     },
+
+    jobBonus: {
+      2: { agi: 1 },
+      6: { str: 1 },
+      10: { dex: 1 },
+      14: { vit: 1 },
+      18: { int: 1 },
+      22: { dex: 1 },
+      26: { luk: 1 },
+      30: { str: 1 },
+      33: { agi: 1 },
+      36: { agi: 1 },
+      38: { str: 1 },
+      40: { luk: 1 },
+      42: { dex: 1 },
+      44: { vit: 1 },
+      46: { luk: 1 },
+      47: { str: 1 },
+      49: { dex: 1 },
+      50: { agi: 1 },
+    },
+
     description:
       "Thieves are agile and cunning, excelling at quick attacks and evasion.",
   },

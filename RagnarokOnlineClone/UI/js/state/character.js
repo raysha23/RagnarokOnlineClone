@@ -1,3 +1,4 @@
+//File Pathing: RagnarokOnlineClone/UI/js/state/character.js
 export const character = {
   baseLevel: 1,
   job: "novice",

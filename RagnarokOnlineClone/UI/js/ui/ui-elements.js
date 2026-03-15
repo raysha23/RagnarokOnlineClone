@@ -26,7 +26,9 @@ export function initializeElements() {
   elements.fleeBaseInput = document.querySelector(".flee-base");
   elements.fleeLukInput = document.querySelector(".flee-luk");
   elements.levelInput = document.querySelector(".lvl-value-input");
+  elements.jobLevelInput = document.getElementById("job-level");
   elements.statusPointInput = document.querySelector(".status-value");
+  elements.jobBonusValues = document.querySelectorAll(".job-bonus-value");
 
   const statKeys = ["str", "agi", "vit", "int", "dex", "luk"];
   const statRows = document.querySelectorAll(".stats-top .column:nth-child(1) .table-row");

@@ -1,9 +1,6 @@
 //Folder Path: RagnarokOnlineClone/UI/js/formulas/stat-formula.js
-
 import { character } from "../state/character.js";
 import { updateUI } from "../ui/ui-updates.js";
-import { elements } from "../ui/ui-elements.js";
-
 // ======================================================
 // STAT FORMULAS
 // ======================================================
@@ -27,11 +24,9 @@ export function getTotalStatPointsForLevel(level) {
 
   return total - 1;
 }
-
 export function getStatIncreaseCost(currentStatValue) {
   return Math.min(Math.floor((currentStatValue - 1) / 10) + 2, 11);
 }
-
 export function getTotalCostToReachStat(currentStat, targetStat) {
   let totalCost = 0;
 
@@ -41,25 +36,6 @@ export function getTotalCostToReachStat(currentStat, targetStat) {
 
   return totalCost;
 }
-
-export function initializeStats() {
-  // Initialize base character stats and UI on app load
-  // If the UI has pre-filled base level, use that.
-  const initialLevel = elements.levelInput
-    ? parseInt(elements.levelInput.value, 10)
-    : character.baseLevel;
-
-  const normalizedLevel = Number.isFinite(initialLevel)
-    ? Math.max(1, Math.min(99, initialLevel))
-    : character.baseLevel;
-
-  updateLevel(normalizedLevel);
-}
-
-// ======================================================
-// CORE LOGIC
-// ======================================================
-
 export function calculateRemainingPointsWithChange(statName, newValue) {
   const totalPoints = getTotalStatPointsForLevel(character.baseLevel);
 
@@ -71,7 +47,6 @@ export function calculateRemainingPointsWithChange(statName, newValue) {
 
   return totalPoints - spentPoints;
 }
-
 export function trySetStat(statName, newValue) {
   newValue = Math.max(1, Math.min(99, parseInt(newValue) || 1));
 
@@ -81,26 +56,6 @@ export function trySetStat(statName, newValue) {
 
   character.stats[statName] = newValue;
   character.availablePoints = remaining;
-
-  updateUI();
-}
-
-// ======================================================
-// LEVEL SYSTEM
-// ======================================================
-
-export function updateLevel(newLevel) {
-  newLevel = Math.max(1, Math.min(99, parseInt(newLevel) || 1));
-
-  character.baseLevel = newLevel;
-
-  const totalPoints = getTotalStatPointsForLevel(newLevel);
-
-  const spentPoints = Object.values(character.stats).reduce((sum, value) => {
-    return sum + getTotalCostToReachStat(1, value);
-  }, 0);
-
-  character.availablePoints = Math.max(0, totalPoints - spentPoints);
 
   updateUI();
 }

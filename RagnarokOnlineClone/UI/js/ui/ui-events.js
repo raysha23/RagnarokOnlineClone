@@ -4,8 +4,12 @@ import { CharacterImages } from "../data/job-images.js";
 import { weaponTypes } from "../data/weapon-data.js";
 import { character } from "../state/character.js";
 import { updateDescription, updateUI } from "./ui-updates.js";
-import { updateLevel, trySetStat } from "../formulas/stat-formula.js";
+import { trySetStat } from "../formulas/stat-formula.js";
+import { updateLevel } from "../systems/baselevel-system.js";
 import { getStatIncreaseCost } from "../formulas/stat-formula.js";
+import { updateJobLevel } from "../systems/joblevel-system.js";
+import { getTotalJobBonus } from "../systems/joblevel-system.js";
+import { jobData } from "../data/job-data.js";
 
 export function initializeUIEvents() {
   const {
@@ -157,16 +161,34 @@ export function initializeUIEvents() {
 
   // ================= BASE LEVEL INPUT =================
   if (levelInput) {
+    // ✅ Reset base level on page load
+    levelInput.value = 1;
+    character.baseLevel = 1;
+    
     const applyBaseLevel = (value) => {
       const normalized = Math.max(1, Math.min(99, value));
       character.baseLevel = normalized;
       updateLevel(normalized); // updates availablePoints and triggers updateUI()
     };
 
+    const normalizeLevelValue = (rawValue) => {
+      const digits = String(rawValue).replace(/\D/g, "");
+      if (digits === "") return null;
+      return parseInt(digits, 10);
+    };
+
+    levelInput.addEventListener("blur", () => {
+      if (levelInput.value === "") {
+        levelInput.value = 1;
+        applyBaseLevel(1);
+      }
+    });
+
     const onLevelInputChanged = (e) => {
-      const value = parseInt(e.target.value, 10);
-      if (!Number.isNaN(value)) {
-        applyBaseLevel(value);
+      const normalizedValue = normalizeLevelValue(e.target.value);
+      e.target.value = normalizedValue !== null ? normalizedValue : "";
+      if (normalizedValue !== null && !Number.isNaN(normalizedValue)) {
+        applyBaseLevel(normalizedValue);
       }
     };
 
@@ -225,15 +247,52 @@ export function initializeUIEvents() {
       statInput.addEventListener("change", (e) => {
         sanitizeAndSet(e.target.value);
       });
+      statInput.addEventListener("blur", () => {
+        if (statInput.value === "") {
+          statInput.value = 1;
+          sanitizeAndSet(1);
+        }
+      });
     }
   });
 
   // ================= JOB SELECTION =================
+
+  // Update job bonus UI function
+  const jobStatsKeys = ["str", "agi", "vit", "int", "dex", "luk"];
+  const jobBonusElements = elements.jobBonusValues;
+
+  function updateJobBonusUI() {
+    const bonus = getTotalJobBonus(); // already sums correctly
+    jobStatsKeys.forEach((stat, index) => {
+      if (jobBonusElements[index])
+        jobBonusElements[index].textContent = bonus[stat] || 0;
+    });
+  }
+
   jobItems.forEach((item) => {
     item.addEventListener("click", () => {
       const job = item.dataset.job.toLowerCase();
 
-      updateWeaponDropdown(job, false); // keep current weapon if possible
+      const bonusLevels = Object.keys(jobData[job].jobBonus || {}).map(Number);
+      const maxJobLevel = bonusLevels.length ? Math.max(...bonusLevels) : 9;
+
+      elements.jobLevelInput.innerHTML = "";
+
+      for (let i = 1; i <= maxJobLevel; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = i;
+        elements.jobLevelInput.appendChild(option);
+      }
+
+      // ✅ RESET JOB LEVEL
+      character.jobLevel = 1;
+      elements.jobLevelInput.value = 1;
+
+      updateJobBonusUI(); // will now show 0 bonuses
+
+      updateWeaponDropdown(job, false);
 
       jobItems.forEach((i) => {
         i.classList.remove("active");
@@ -295,4 +354,38 @@ export function initializeUIEvents() {
 
   if (defaultJobItem) defaultJobItem.click();
   else updateWeaponDropdown(defaultJob);
+
+  if (elements.jobLevelInput) {
+    const job = elements.jobTitle.textContent.toLowerCase();
+
+    // Clear existing options
+    elements.jobLevelInput.innerHTML = "";
+
+    // Get max job level dynamically
+    const bonusLevels = Object.keys(jobData[job].jobBonus || {}).map(Number);
+    const maxJobLevel = bonusLevels.length ? Math.max(...bonusLevels) : 9;
+
+    // Generate dropdown options
+    for (let i = 1; i <= maxJobLevel; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = i;
+      elements.jobLevelInput.appendChild(option);
+    }
+
+    function onJobLevelChanged(e) {
+      const newLevel = parseInt(e.target.value, 10);
+      if (!isNaN(newLevel)) {
+        updateJobLevel(newLevel);
+        updateJobBonusUI();
+      }
+    }
+
+    elements.jobLevelInput.addEventListener("change", onJobLevelChanged);
+    elements.jobLevelInput.addEventListener("input", onJobLevelChanged);
+
+    // Initialize
+    elements.jobLevelInput.value = character.jobLevel || 1;
+    updateJobBonusUI();
+  }
 }
