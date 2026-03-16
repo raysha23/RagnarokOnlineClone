@@ -4,13 +4,22 @@ import { calculateSP } from "./sp-system.js";
 import { calculateHPRegen, calculateSPRegen } from "./regen-system.js";
 import { calculateWeight } from "./weight-system.js";
 import { calculateASPD } from "./aspd-system.js";
+import { getTotalJobBonus } from "./joblevel-system.js";
 
 // ======================================
 // MAIN COMBAT STAT CALCULATIONS
 // ===
 // ===================================
 export function calculateCombatStats(character) {
-  const { str, agi, vit, int, dex, luk } = character.stats;
+  const baseStats = character.stats;
+  const jobBonus = getTotalJobBonus();
+
+  const str = baseStats.str + jobBonus.str;
+  const agi = baseStats.agi + jobBonus.agi;
+  const vit = baseStats.vit + jobBonus.vit;
+  const int = baseStats.int + jobBonus.int;
+  const dex = baseStats.dex + jobBonus.dex;
+  const luk = baseStats.luk + jobBonus.luk;
   const level = character.baseLevel;
 
   // ----------------------------
@@ -40,10 +49,10 @@ export function calculateCombatStats(character) {
 
   // ----------------------------
   // FLEE
-  const fleeBase = level + agi;
-  const fleeBonusFromLuk = Math.floor(luk / 10);
+  const flee = level + agi;
 
-  const flee = fleeBase + fleeBonusFromLuk;
+  // PERFECT DODGE
+  const perfectDodge = 1 + Math.floor(luk / 10);
 
   // ----------------------------
   // DEF / MDEF
@@ -78,6 +87,3 @@ export function calculateCombatStats(character) {
     spRegen,
   };
 }
-// ======================================
-// UPDATE UI
-// ======================================

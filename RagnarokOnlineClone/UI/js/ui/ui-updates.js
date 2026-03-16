@@ -15,31 +15,24 @@ export function updateUI() {
   // ================= STATS =================
 
   if (elements.attackInput) elements.attackInput.value = combatStats.attack;
-  if (elements.MinmagicAttackInput) elements.MinmagicAttackInput.value = combatStats.matkMin;
-  if (elements.MaxmagicAttackInput) elements.MaxmagicAttackInput.value = combatStats.matkMax;
+  if (elements.MinmagicAttackInput)
+    elements.MinmagicAttackInput.value = combatStats.matkMin;
+  if (elements.MaxmagicAttackInput)
+    elements.MaxmagicAttackInput.value = combatStats.matkMax;
   if (elements.critInput) elements.critInput.value = combatStats.crit;
   if (elements.defenseInput) elements.defenseInput.value = combatStats.defense;
-  if (elements.magicDefenseInput) elements.magicDefenseInput.value = combatStats.mdefBase;
-  if (elements.attackSpeedInput) elements.attackSpeedInput.value = combatStats.attackSpeed;
+  if (elements.magicDefenseInput)
+    elements.magicDefenseInput.value = combatStats.mdefBase;
+  if (elements.attackSpeedInput)
+    elements.attackSpeedInput.value = combatStats.attackSpeed;
   if (elements.hitRateInput) elements.hitRateInput.value = combatStats.hit;
-
   // ================= FLEE =================
-
-  if (elements.fleeBaseInput) {
-    elements.fleeBaseInput.value = Math.max(
-      1,
-      character.baseLevel + character.stats.agi,
-    );
-  }
-
-  if (elements.fleeLukInput) {
-    const fleeLukBonus = 1 + Math.floor(character.stats.luk / 10);
-    elements.fleeLukInput.value = fleeLukBonus;
-  }
+  if (elements.fleeBaseInput) elements.fleeBaseInput.value = combatStats.flee;
 
   // ================= LEVEL =================
   if (elements.levelInput) elements.levelInput.value = character.baseLevel;
-  if (elements.statusPointInput) elements.statusPointInput.value = character.availablePoints;
+  if (elements.statusPointInput)
+    elements.statusPointInput.value = character.availablePoints;
 
   // ================= STAT ROWS =================
 
