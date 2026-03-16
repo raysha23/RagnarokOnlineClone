@@ -56,15 +56,15 @@ namespace RagnarokOnlineClone
                 webView21.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
                 webView21.CoreWebView2.Settings.AreDevToolsEnabled = false;
 
-          //        // Disable Ctrl + / Ctrl - zoom
-          //        webView21.CoreWebView2.Settings.IsZoomControlEnabled = false;
+                // Disable Ctrl + / Ctrl - zoom
+                webView21.CoreWebView2.Settings.IsZoomControlEnabled = false;
 
-          //        // Disable scrolling
-          //        string disableScrollJs = @"
-          //    document.body.style.overflow = 'hidden';
-          //    document.documentElement.style.overflow = 'hidden';
-          //";
-          //        await webView21.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(disableScrollJs);
+                // Disable scrolling
+                string disableScrollJs = @"
+              document.body.style.overflow = 'hidden';
+              document.documentElement.style.overflow = 'hidden';
+          ";
+                await webView21.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(disableScrollJs);
 
                 webView21.CoreWebView2.WebMessageReceived += WebMessageReceived;
 

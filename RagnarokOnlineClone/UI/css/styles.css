@@ -332,7 +332,7 @@ input {
 
 /* Female Novice – larger, showing only up to knees */
 .hero-selection img[src*="novice.png"],
-.hero-selection img[src*="femalenovice.png"] {
+.hero-selection img[src*="novicefemale.png"] {
   margin-top: 130px !important; /* moves the image up; adjust as needed */
 
   width: 2000px !important; /* much bigger */
