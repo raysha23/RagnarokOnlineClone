@@ -242,22 +242,55 @@ export function init() {
     );
   });
 
-  // ================= RESET =================
+  // 1. Helper function to handle the modal logic
+  function showGoldConfirm(message) {
+    return new Promise((resolve) => {
+      const modal = document.getElementById("goldModal");
+      const confirmBtn = document.getElementById("modalConfirm");
+      const cancelBtn = document.getElementById("modalCancel");
+      const msgEl = document.getElementById("modalMessage");
+
+      msgEl.textContent = message;
+      modal.style.display = "flex";
+
+      const handleConfirm = () => {
+        cleanup();
+        resolve(true);
+      };
+
+      const handleCancel = () => {
+        cleanup();
+        resolve(false);
+      };
+
+      const cleanup = () => {
+        modal.style.display = "none";
+        confirmBtn.removeEventListener("click", handleConfirm);
+        cancelBtn.removeEventListener("click", handleCancel);
+      };
+
+      confirmBtn.addEventListener("click", handleConfirm);
+      cancelBtn.addEventListener("click", handleCancel);
+    });
+  }
+
+  // 2. Updated RESET Logic
   const btn = document.getElementById("resetSkills");
 
   if (btn) {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => { // Added 'async'
       e.preventDefault();
 
-      if (confirm("Reset all skill points?")) {
+      // Use our custom Gold Modal instead of confirm()
+      const confirmed = await showGoldConfirm("Reset all skill points?");
+
+      if (confirmed) {
         resetState();
 
         updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
 
         const activeIcon = document.querySelector(".class-icons img.active");
-        const activeChar = activeIcon
-          ? activeIcon.dataset.character
-          : "novice";
+        const activeChar = activeIcon ? activeIcon.dataset.character : "novice";
 
         if (skillTreeArea) skillTreeArea.innerHTML = "";
 
