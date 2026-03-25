@@ -707,8 +707,10 @@ body {
 
 /* ===== RO SKILL CARD OVERLAY ===== */
 .ro-skill-card {
-  position: fixed; /* relative to viewport */
+  position: absolute; /* relative to viewport */
   z-index: 9999;
+  right: 800px;
+  top: 200px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fffaf0;
   border: 2px solid var(--border-color);
@@ -717,10 +719,10 @@ body {
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   opacity: 0;
-  transform: scale(0.95);
+  /* transform: scale(0.95);
   transition:
     opacity 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease; */
   pointer-events: none; /* ignore mouse when hidden */
 }
 

@@ -1,6 +1,7 @@
-//File Path: js/ui/skill-init.js
+// File Path: js/ui/skill-init.js
 import {
   skillData,
+  skillInfo,
   characterImages,
   characterMessages,
   skillTreeTitles,
@@ -20,31 +21,99 @@ export function init() {
   const messageText = document.querySelector(".message-text");
   const skillTreeTitle = document.querySelector(".skill-tree-title");
 
-  // DOM elements used by renderer and utils
   const jobLevelSelect = document.getElementById("jobLevel");
   const skillTreeArea = document.querySelector(".skill-tree-area");
   const skillCard = document.querySelector(".ro-skill-card");
   const pointsLeftInput = document.getElementById("pointsLeft");
   const pointsUsedInput = document.getElementById("pointsUsed");
 
-  // mouse follow for card
- document.addEventListener("mousemove", (e) => {
-  if (skillCard && skillCard.classList.contains("show")) {
-    skillCard.style.left =
-      e.clientX - skillCard.offsetWidth - 20 + "px";
+  // ================= AUTO ALLOCATE =================
+  function autoAllocateSkills(maxPoints) {
+    let usedPoints = 0;
+    let progress = true;
 
-    skillCard.style.top =
-      e.clientY - skillCard.offsetHeight / 2 + "px";
+    while (progress && usedPoints < maxPoints) {
+      progress = false;
+
+      for (const skillKey in state.characterSkillLevels) {
+        const info = skillInfo[skillKey];
+        if (!info) continue;
+
+        const currentLv = state.characterSkillLevels[skillKey];
+        const maxLv = info.maxLv || 10;
+
+        if (currentLv >= maxLv) continue;
+
+        const reqs = info.req || [];
+
+        const canLevel = reqs.every(
+          (r) => (state.characterSkillLevels[r.skill] || 0) >= r.lv
+        );
+
+        if (!canLevel) continue;
+
+        if (usedPoints >= maxPoints) break;
+
+        state.characterSkillLevels[skillKey]++;
+        usedPoints++;
+
+        progress = true;
+      }
+    }
+
+    state.skillPointsUsed = usedPoints;
+    state.skillPointsLeft = maxPoints - usedPoints;
   }
-});
 
-  // Populate job levels for skill page: clamp to 1-50 (job level depends on home page)
+  function resetAllSkills() {
+    for (let key in state.characterSkillLevels) {
+      state.characterSkillLevels[key] = 0;
+    }
+  }
+
+  // ================= JOB LEVEL =================
   populateJobLevels(jobLevelSelect, 1, 50);
-  jobLevelSelect.addEventListener("change", () =>
-    updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput),
-  );
 
+  let previousJobLevel = parseInt(jobLevelSelect.value) || 1;
+
+  jobLevelSelect.addEventListener("change", () => {
+    const jobLevel = parseInt(jobLevelSelect.value);
+    const maxPoints = jobLevel - 1;
+
+    const isDecreasing = jobLevel < previousJobLevel;
+
+    if (isDecreasing) {
+      // ✅ AUTO ONLY WHEN LOWERING
+      resetAllSkills();
+
+      state.skillPointsUsed = 0;
+      state.skillPointsLeft = maxPoints;
+
+      autoAllocateSkills(maxPoints);
+    } else {
+      // ✅ NO AUTO WHEN INCREASING
+      state.skillPointsLeft = maxPoints - state.skillPointsUsed;
+    }
+
+    updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
+
+    const activeIcon = document.querySelector(".class-icons img.active");
+    const activeChar = activeIcon ? activeIcon.dataset.character : "novice";
+
+    renderSkills(activeChar, {
+      skillTreeArea,
+      skillCard,
+      jobLevelSelect,
+      pointsLeftInput,
+      pointsUsedInput,
+    });
+
+    previousJobLevel = jobLevel;
+  });
+
+  // ================= HERO =================
   let currentGender = "male";
+
   function updateHeroImages(charName) {
     if (currentGender === "male") {
       heroImage.src = characterImages[charName].hero;
@@ -63,38 +132,47 @@ export function init() {
     }, 300);
   }
 
-  // Startup Init
+  // ================= INIT =================
   const urlParams = new URLSearchParams(window.location.search);
   const selectedJob = urlParams.get("job") || "novice";
   currentGender = urlParams.get("gender") || "male";
-  // Accept jobLevel passed from home page; clamp 1-50
+
   const urlJobLevel = parseInt(urlParams.get("jobLevel"), 10);
   const initialJobLevel = !isNaN(urlJobLevel)
     ? Math.max(1, Math.min(50, urlJobLevel))
     : 50;
+
   if (jobLevelSelect) jobLevelSelect.value = initialJobLevel;
-  // Update points UI based on initial job level
+
   updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
+
+  previousJobLevel = initialJobLevel;
 
   const maleBtn = document.getElementById("maleBtn");
   const femaleBtn = document.getElementById("femaleBtn");
+
   maleBtn.src =
     currentGender === "male"
       ? "images/maleactive.png"
       : "images/maleinactive.png";
+
   femaleBtn.src =
     currentGender === "female"
       ? "images/femaleactive.png"
       : "images/femaleinactive.png";
 
+  // ================= CLASS SELECT =================
   classIcons.forEach((icon) => {
     const charName = icon.dataset.character;
+
     if (charName === selectedJob) {
       icon.src = characterImages[charName].active;
       icon.classList.add("active");
+
       updateHeroImages(charName);
       typeMessage(messageText, characterMessages[charName]);
       updateSkillTreeTitle(skillTreeTitles[charName]);
+
       renderSkills(charName, {
         skillTreeArea,
         skillCard,
@@ -105,19 +183,20 @@ export function init() {
     } else {
       icon.src = characterImages[charName].inactive;
     }
+
     icon.addEventListener("click", () => {
-      // ✅ RESET EVERYTHING
       resetState();
 
-      // ✅ FORCE JOB LEVEL TO 50
       jobLevelSelect.value = 50;
+      previousJobLevel = 50;
 
-      // ✅ RECALCULATE POINTS BASED ON 50
+      state.skillPointsUsed = 0;
+      state.skillPointsLeft = 49;
+
       updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
 
-      // ================= EXISTING CODE =================
       classIcons.forEach(
-        (i) => (i.src = characterImages[i.dataset.character].inactive),
+        (i) => (i.src = characterImages[i.dataset.character].inactive)
       );
 
       icon.src = characterImages[charName].active;
@@ -142,34 +221,46 @@ export function init() {
     });
   });
 
+  // ================= GENDER =================
   maleBtn.addEventListener("click", () => {
     maleBtn.src = "images/maleactive.png";
     femaleBtn.src = "images/femaleinactive.png";
     currentGender = "male";
+
     updateHeroImages(
-      document.querySelector(".class-icons img.active").dataset.character,
+      document.querySelector(".class-icons img.active").dataset.character
     );
   });
+
   femaleBtn.addEventListener("click", () => {
     femaleBtn.src = "images/femaleactive.png";
     maleBtn.src = "images/maleinactive.png";
     currentGender = "female";
+
     updateHeroImages(
-      document.querySelector(".class-icons img.active").dataset.character,
+      document.querySelector(".class-icons img.active").dataset.character
     );
   });
 
-  // Reset button
+  // ================= RESET =================
   const btn = document.getElementById("resetSkills");
+
   if (btn) {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
+
       if (confirm("Reset all skill points?")) {
         resetState();
+
         updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
+
         const activeIcon = document.querySelector(".class-icons img.active");
-        const activeChar = activeIcon ? activeIcon.dataset.character : "novice";
+        const activeChar = activeIcon
+          ? activeIcon.dataset.character
+          : "novice";
+
         if (skillTreeArea) skillTreeArea.innerHTML = "";
+
         renderSkills(activeChar, {
           skillTreeArea,
           skillCard,
@@ -180,4 +271,37 @@ export function init() {
       }
     });
   }
+}
+// =======================================
+// Skill Card Pop-up beside Skill Node
+// =======================================
+function attachSkillCardHover(skillTreeArea, skillCard) {
+  // Ensure card is absolutely positioned via CSS
+  skillCard.classList.add("skill-card"); // Add a class for CSS control
+  skillCard.style.pointerEvents = "none"; // Don't block mouse
+  skillCard.style.display = "none"; // Hide initially
+
+  skillTreeArea.querySelectorAll(".skill-node").forEach((skillEl) => {
+    skillEl.addEventListener("mouseenter", () => {
+      const skillKey = skillEl.dataset.skillKey;
+      const info = skillInfo[skillKey];
+      if (!info) return;
+
+      // Update content
+      skillCard.querySelector(".header-main h2").innerHTML =
+        `${info.title} <span class="skill-id">${info.id}</span>`;
+      skillCard.querySelector(".skill-stats").innerHTML = `
+        <tr><th>Type</th><td>${info.type}</td><th>Max Lv</th><td>${info.maxLv}</td></tr>
+        <tr><th>Effect</th><td colspan="3">${info.effect || "No description"}</td></tr>
+      `;
+
+      skillCard.style.display = "flex"; // Show card
+      skillCard.classList.add("show");
+    });
+
+    skillEl.addEventListener("mouseleave", () => {
+      skillCard.style.display = "none"; // Hide card
+      skillCard.classList.remove("show");
+    });
+  });
 }
