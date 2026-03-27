@@ -281,7 +281,6 @@ export function initializeUIEvents() {
   jobItems.forEach((item) => {
     item.addEventListener("click", () => {
       const job = item.dataset.job.toLowerCase();
-
       const bonusLevels = Object.keys(jobData[job].jobBonus || {}).map(Number);
       const maxJobLevel = bonusLevels.length ? Math.max(...bonusLevels) : 9;
 
@@ -387,6 +386,7 @@ export function initializeUIEvents() {
 
     function onJobLevelChanged(e) {
       const newLevel = parseInt(e.target.value, 10);
+      console.log("[JOB LEVEL DROPDOWN] Selected level:", e.target.value); // <-- LOG HERE
       if (!isNaN(newLevel)) {
         updateJobLevel(newLevel);
         updateJobBonusUI();
@@ -397,7 +397,15 @@ export function initializeUIEvents() {
     elements.jobLevelInput.addEventListener("input", onJobLevelChanged);
 
     // Initialize
-    elements.jobLevelInput.value = character.jobLevel || 1;
+    // elements.jobLevelInput.value = character.jobLevel || 1;
+    // Trigger calculation on page load / restore
+    if (elements.jobLevelInput) {
+      // Set dropdown value first (e.g., restored level or default)
+      elements.jobLevelInput.value = character.jobLevel || 1;
+
+      // Manually trigger the handler
+      onJobLevelChanged({ target: elements.jobLevelInput });
+    }
     updateJobBonusUI();
   }
 }
