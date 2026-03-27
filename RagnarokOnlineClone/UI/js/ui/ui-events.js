@@ -10,6 +10,18 @@ import { getStatIncreaseCost } from "../formulas/stat-formula.js";
 import { updateJobLevel } from "../systems/joblevel-system.js";
 import { getTotalJobBonus } from "../systems/joblevel-system.js";
 import { jobData } from "../data/job-data.js";
+  
+const savedStats = localStorage.getItem("characterStats");
+
+if (savedStats) {
+  const parsed = JSON.parse(savedStats);
+
+  Object.keys(character.stats).forEach(stat => {
+    if (parsed[stat] !== undefined) {
+      character.stats[stat] = Number(parsed[stat]);
+    }
+  });
+}
 
 export function initializeUIEvents() {
   // Prefer elements provided by initializeElements, fall back to querying the DOM
@@ -170,12 +182,12 @@ export function initializeUIEvents() {
   // ================= BASE LEVEL INPUT =================
   if (levelInput) {
     // ✅ Reset base level on page load
-   if (!window.isRestoringState) {
-  levelInput.value = 1;
-  character.baseLevel = 1;
-}
-// Always sync UI with character state
-levelInput.value = character.baseLevel;
+    if (!window.isRestoringState) {
+      levelInput.value = 1;
+      character.baseLevel = 1;
+    }
+    // Always sync UI with character state
+    levelInput.value = character.baseLevel;
     const applyBaseLevel = (value) => {
       const normalized = Math.max(1, Math.min(99, value));
       character.baseLevel = normalized;
@@ -218,11 +230,12 @@ levelInput.value = character.baseLevel;
     const minusBtn = row.querySelector(".stat-btn.minus");
     const statInput = row.querySelector(".stat-input");
 
+    // ======= sanitizeAndSet ONLY updates the stat and derived stats =======
     const sanitizeAndSet = (value) => {
       let statValue = parseInt(value, 10);
       if (Number.isNaN(statValue)) return;
 
-      const current = character.stats[statName];
+      const current = Number(character.stats[statName]) || 1;
       let pointsLeft = character.availablePoints;
 
       let maxAffordable = current;
@@ -238,33 +251,26 @@ levelInput.value = character.baseLevel;
 
       statValue = Math.max(1, Math.min(statValue, maxAffordable));
 
+      // ✅ APPLY STAT
       trySetStat(statName, statValue);
-      statInput.value = statValue;
+      character.stats[statName] = statValue; // 🔥 force correct value
+
+      if (statInput) statInput.value = statValue;
+
+      // ✅ SAVE
+      localStorage.setItem("characterStats", JSON.stringify(character.stats));
+
+      // ✅ UPDATE UI
+      updateUI();
     };
 
-    plusBtn?.addEventListener("click", () => {
-      sanitizeAndSet(character.stats[statName] + 1);
+    plusBtn?.addEventListener("click", () => sanitizeAndSet(character.stats[statName] + 1));
+    minusBtn?.addEventListener("click", () => sanitizeAndSet(character.stats[statName] - 1));
+    statInput?.addEventListener("input", (e) => {
+      let digits = e.target.value.replace(/\D/g, "");
+      e.target.value = digits;
+      if (digits !== "") sanitizeAndSet(digits);
     });
-    minusBtn?.addEventListener("click", () => {
-      sanitizeAndSet(character.stats[statName] - 1);
-    });
-
-    if (statInput) {
-      statInput.addEventListener("input", (e) => {
-        let digits = e.target.value.replace(/\D/g, "");
-        e.target.value = digits;
-        if (digits !== "") sanitizeAndSet(digits);
-      });
-      statInput.addEventListener("change", (e) => {
-        sanitizeAndSet(e.target.value);
-      });
-      statInput.addEventListener("blur", () => {
-        if (statInput.value === "") {
-          statInput.value = 1;
-          sanitizeAndSet(1);
-        }
-      });
-    }
   });
 
   // ================= JOB SELECTION =================

@@ -12,6 +12,14 @@ export const character = {
     dex: 1,
     luk: 1,
   },
-
+  // Calculated stats = stats + level points + job bonuses
+  calcStats: {
+    str: 1,
+    agi: 1,
+    vit: 1,
+    int: 1,
+    dex: 1,
+    luk: 1,
+  },
   availablePoints: 0,
 };

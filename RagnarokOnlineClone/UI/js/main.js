@@ -39,9 +39,9 @@ window.addEventListener("DOMContentLoaded", () => {
   // initialize character objects from jobData
   gameData.initCharacters();
   // ---------------- RESTORE STATE ----------------
- window.isRestoringState = true;
-restoreJobState();
-window.isRestoringState = false;
+  window.isRestoringState = true;
+  restoreJobState();
+  window.isRestoringState = false;
 });
 
 // =============================
@@ -61,7 +61,10 @@ async function goToSkills() {
     if (!isNaN(jl)) jobLevel = Math.max(1, Math.min(50, jl)).toString();
   }
   const baseLevel = character.baseLevel;
-window.location.href = `skill-page.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}&baseLevel=${baseLevel}`;
+  const stats = character.stats;
+
+  const statsQuery = `str=${stats.str}&agi=${stats.agi}&vit=${stats.vit}&int=${stats.int}&dex=${stats.dex}&luk=${stats.luk}`;
+  window.location.href = `skill-page.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}&baseLevel=${baseLevel}&${statsQuery}`;
 }
 window.goToSkills = goToSkills;
 
@@ -84,8 +87,10 @@ function goBackHome() {
   const gender = maleBtn && maleBtn.src.includes("maleactive") ? "male" : "female";
 
   const baseLevel = character.baseLevel;
+  const stats = character.stats;
 
-  window.location.href = `home.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}&baseLevel=${baseLevel}`;
+  const statsQuery = `str=${stats.str}&agi=${stats.agi}&vit=${stats.vit}&int=${stats.int}&dex=${stats.dex}&luk=${stats.luk}`;
+  window.location.href = `home.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}&baseLevel=${baseLevel}&${statsQuery}`;
 }
 window.goBackHome = goBackHome;
 

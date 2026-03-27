@@ -10,30 +10,32 @@ import { getStatIncreaseCost } from "../formulas/stat-formula.js";
 // ======================================================
 
 export function updateUI() {
-  const combatStats = calculateCombatStats(character);
+  // const combatStats = calculateCombatStats(character);
+  character.calcStats = calculateCombatStats(character);
 
   // ================= STATS =================
 
-  if (elements.attackInput) elements.attackInput.value = combatStats.attack;
+  if (elements.attackInput) elements.attackInput.value = character.calcStats.attack;
   if (elements.MinmagicAttackInput)
-    elements.MinmagicAttackInput.value = combatStats.matkMin;
+    elements.MinmagicAttackInput.value = character.calcStats.matkMin;
   if (elements.MaxmagicAttackInput)
-    elements.MaxmagicAttackInput.value = combatStats.matkMax;
-  if (elements.critInput) elements.critInput.value = combatStats.crit;
-  if (elements.defenseInput) elements.defenseInput.value = combatStats.defense;
+    elements.MaxmagicAttackInput.value = character.calcStats.matkMax;
+  if (elements.critInput) elements.critInput.value = character.calcStats.crit;
+  if (elements.defenseInput) elements.defenseInput.value = character.calcStats.defense;
   if (elements.magicDefenseInput)
-    elements.magicDefenseInput.value = combatStats.mdefBase;
+    elements.magicDefenseInput.value = character.calcStats.mdefBase;
   if (elements.attackSpeedInput)
-    elements.attackSpeedInput.value = combatStats.attackSpeed;
-  if (elements.hitRateInput) elements.hitRateInput.value = combatStats.hit;
+    elements.attackSpeedInput.value = character.calcStats.attackSpeed;
+  if (elements.hitRateInput) elements.hitRateInput.value = character.calcStats.hit;
   // ================= FLEE =================
-  if (elements.fleeBaseInput) elements.fleeBaseInput.value = combatStats.flee;
+  if (elements.fleeBaseInput) elements.fleeBaseInput.value = character.calcStats.flee;
 
   // ================= LEVEL =================
   if (elements.levelInput) elements.levelInput.value = character.baseLevel;
   if (elements.statusPointInput)
     elements.statusPointInput.value = character.availablePoints;
-
+    console.log("STATS:", character.stats);
+    console.log("CALC:", character.calcStats);
   // ================= STAT ROWS =================
 
   const statOrder = ["str", "agi", "vit", "int", "dex", "luk"];
@@ -60,8 +62,8 @@ export function updateUI() {
   });
 
   // ================= HP / SP =================
-  const maxHP = combatStats.maxHP;
-  const maxSP = combatStats.maxSP;
+  const maxHP = character.calcStats.maxHP;
+  const maxSP = character.calcStats.maxSP;
 
   // Using the bar-row and classes to target HP
   const hpFill = document.querySelector(".bar-row .hp-fill");
@@ -83,15 +85,15 @@ export function updateUI() {
 
   const weightEl = document.querySelector(".weight-box");
 
-  if (weightEl) weightEl.textContent = combatStats.weightLimit;
+  if (weightEl) weightEl.textContent = character.calcStats.weightLimit;
 
   const hpRegenEl = document.querySelector(".hp-regen-value");
 
-  if (hpRegenEl) hpRegenEl.textContent = combatStats.hpRegen;
+  if (hpRegenEl) hpRegenEl.textContent = character.calcStats.hpRegen;
 
   const spRegenEl = document.querySelector(".sp-regen-value");
 
-  if (spRegenEl) spRegenEl.textContent = combatStats.spRegen;
+  if (spRegenEl) spRegenEl.textContent = character.calcStats.spRegen;
 }
 
 // ======================================================

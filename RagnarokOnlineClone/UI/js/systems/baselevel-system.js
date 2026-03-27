@@ -7,11 +7,12 @@ import { getTotalStatPointsForLevel } from "../formulas/stat-formula.js";
 
 export function updateLevel(newLevel) {
   newLevel = Math.max(1, Math.min(99, parseInt(newLevel) || 1));
-
   character.baseLevel = newLevel;
 
-  const totalPoints = getTotalStatPointsForLevel(newLevel);
+  // Start from manual stats
+  character.calcStats = { ...character.stats };
 
+  const totalPoints = getTotalStatPointsForLevel(newLevel);
   adjustStatsToLevel(totalPoints);
 
   const spentPoints = getSpentPoints();
@@ -19,8 +20,18 @@ export function updateLevel(newLevel) {
 
   updateUI();
 }
+
+
 export function initializeStats() {
-  // Use character.baseLevel if input not ready
+  // Only set baseStats if it doesn't exist
+  if (!character.calcStats) {
+    character.calcStats = { ...character.stats }; // store the initial stats
+  }
+
+  // Restore stats from baseStats instead of overwriting with defaults
+  character.stats = { ...character.calcStats };
+
+  // If level input exists, apply level-based points on top
   const initialLevel = elements.levelInput
     ? parseInt(elements.levelInput.value, 10)
     : character.baseLevel;
@@ -31,41 +42,41 @@ export function initializeStats() {
 
   updateLevel(normalizedLevel);
 }
-
 export function adjustStatsToLevel(totalPoints) {
   let spentPoints = getSpentPoints();
 
   while (spentPoints > totalPoints) {
-    const oldStats = { ...character.stats };
+    const oldStats = { ...character.calcStats };
 
     if (!decreaseHighestStat()) break;
 
     const newSpentPoints = getSpentPoints();
 
-    // Fallback safety: if decrease didn't reduce spent points, break to avoid infinite loop.
     if (newSpentPoints >= spentPoints) break;
 
     spentPoints = newSpentPoints;
   }
 }
+
 export function decreaseHighestStat() {
   let highestKey = null;
   let highestValue = -Infinity;
 
-  for (const [key, value] of Object.entries(character.stats)) {
+  for (const [key, value] of Object.entries(character.calcStats)) {
     if (value > highestValue) {
       highestValue = value;
       highestKey = key;
     }
   }
 
-  if (!highestKey || character.stats[highestKey] <= 1) return false;
+  if (!highestKey || character.calcStats[highestKey] <= 1) return false;
 
-  character.stats[highestKey] -= 1;
+  character.calcStats[highestKey] -= 1;
   return true;
 }
+
 export function getSpentPoints() {
-  return Object.values(character.stats).reduce((sum, value) => {
+  return Object.values(character.calcStats).reduce((sum, value) => {
     return sum + getTotalCostToReachStat(1, value);
   }, 0);
 }
