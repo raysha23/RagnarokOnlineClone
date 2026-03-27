@@ -170,9 +170,12 @@ export function initializeUIEvents() {
   // ================= BASE LEVEL INPUT =================
   if (levelInput) {
     // ✅ Reset base level on page load
-    levelInput.value = 1;
-    character.baseLevel = 1;
-
+   if (!window.isRestoringState) {
+  levelInput.value = 1;
+  character.baseLevel = 1;
+}
+// Always sync UI with character state
+levelInput.value = character.baseLevel;
     const applyBaseLevel = (value) => {
       const normalized = Math.max(1, Math.min(99, value));
       character.baseLevel = normalized;

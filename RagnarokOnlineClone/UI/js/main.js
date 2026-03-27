@@ -6,12 +6,12 @@ import { updateDescription, updateUI } from "./ui/ui-updates.js";
 import { init as initSkills } from "./ui/skill-init.js";
 import { restoreJobState } from "./systems/job-restore.js"; // ✅ NEW RESTORE MODULE
 import { gameData } from "./data/game-data.js";
+import { character } from "./state/character.js";
 // =============================
 // 🚀 APPLICATION ENTRYPOINT
 // =============================
 window.addEventListener("DOMContentLoaded", () => {
   // 🔥 GLOBAL FLAG
-  window.isRestoringState = false;
 
 
   // restore job state from URL or saved character
@@ -39,7 +39,9 @@ window.addEventListener("DOMContentLoaded", () => {
   // initialize character objects from jobData
   gameData.initCharacters();
   // ---------------- RESTORE STATE ----------------
-  restoreJobState(); // ✅ Replaces all previous restore logic
+ window.isRestoringState = true;
+restoreJobState();
+window.isRestoringState = false;
 });
 
 // =============================
@@ -58,8 +60,8 @@ async function goToSkills() {
     const jl = parseInt(jobLevelEl.value, 10);
     if (!isNaN(jl)) jobLevel = Math.max(1, Math.min(50, jl)).toString();
   }
-
-  window.location.href = `skill-page.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}`;
+  const baseLevel = character.baseLevel;
+window.location.href = `skill-page.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}&baseLevel=${baseLevel}`;
 }
 window.goToSkills = goToSkills;
 
@@ -81,7 +83,9 @@ function goBackHome() {
   const maleBtn = document.getElementById("maleBtn");
   const gender = maleBtn && maleBtn.src.includes("maleactive") ? "male" : "female";
 
-  window.location.href = `home.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}`;
+  const baseLevel = character.baseLevel;
+
+  window.location.href = `home.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}&baseLevel=${baseLevel}`;
 }
 window.goBackHome = goBackHome;
 
