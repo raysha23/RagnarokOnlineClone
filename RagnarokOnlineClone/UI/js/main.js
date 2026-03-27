@@ -5,7 +5,7 @@ import { initializeUIEvents } from "./ui/ui-events.js";
 import { updateDescription, updateUI } from "./ui/ui-updates.js";
 import { init as initSkills } from "./ui/skill-init.js";
 import { restoreJobState } from "./systems/job-restore.js"; // ✅ NEW RESTORE MODULE
-
+import { gameData } from "./data/game-data.js";
 // =============================
 // 🚀 APPLICATION ENTRYPOINT
 // =============================
@@ -13,6 +13,8 @@ window.addEventListener("DOMContentLoaded", () => {
   // 🔥 GLOBAL FLAG
   window.isRestoringState = false;
 
+
+  // restore job state from URL or saved character
   // Initialize DOM references
   initializeElements();
 
@@ -27,7 +29,6 @@ window.addEventListener("DOMContentLoaded", () => {
     initializeUIEvents(); // Job, hero, bars, stats
     updateDescription("novice");
   }
-
   if (isSkillPage) {
     try {
       initSkills(); // Skill tree initialization
@@ -35,7 +36,8 @@ window.addEventListener("DOMContentLoaded", () => {
       console.error("Failed to initialize skills module:", err);
     }
   }
-
+  // initialize character objects from jobData
+  gameData.initCharacters();
   // ---------------- RESTORE STATE ----------------
   restoreJobState(); // ✅ Replaces all previous restore logic
 });

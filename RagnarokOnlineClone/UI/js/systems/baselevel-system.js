@@ -20,8 +20,7 @@ export function updateLevel(newLevel) {
   updateUI();
 }
 export function initializeStats() {
-  // Initialize base character stats and UI on app load
-  // If the UI has pre-filled base level, use that.
+  // Use character.baseLevel if input not ready
   const initialLevel = elements.levelInput
     ? parseInt(elements.levelInput.value, 10)
     : character.baseLevel;

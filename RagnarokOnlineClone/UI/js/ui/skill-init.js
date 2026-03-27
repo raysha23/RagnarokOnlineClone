@@ -1,4 +1,5 @@
 // File Path: js/ui/skill-init.js
+import { loadSkillState, recalculatePointsUsed } from "../state/skill-state.js";
 import {
   skillData,
   skillInfo,
@@ -136,15 +137,18 @@ export function init() {
   const urlParams = new URLSearchParams(window.location.search);
   const selectedJob = urlParams.get("job") || "novice";
   currentGender = urlParams.get("gender") || "male";
-
+  
   const urlJobLevel = parseInt(urlParams.get("jobLevel"), 10);
   const initialJobLevel = !isNaN(urlJobLevel)
-    ? Math.max(1, Math.min(50, urlJobLevel))
-    : 50;
-
+  ? Math.max(1, Math.min(50, urlJobLevel))
+  : 50;
+  
+  loadSkillState(selectedJob);
+  recalculatePointsUsed();
+  updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
+  // renderSkills(selectedJob, elements);
   if (jobLevelSelect) jobLevelSelect.value = initialJobLevel;
 
-  updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
 
   previousJobLevel = initialJobLevel;
 

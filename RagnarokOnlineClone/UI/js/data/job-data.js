@@ -3,6 +3,7 @@
 export const jobData = {
   novice: {
     stats: {
+      str: 0, agi: 0, vit: 0, int: 0, dex: 0, luk: 0,
       hpA: 0,
       hpB: 5,
       baseSP: 10,
@@ -24,6 +25,7 @@ export const jobData = {
   },
 
   swordsman: {
+    str: 0, agi: 0, vit: 0, int: 0, dex: 0, luk: 0,
     stats: {
       hpA: 0.7,
       hpB: 5,
@@ -66,6 +68,7 @@ export const jobData = {
 
   magician: {
     stats: {
+      str: 0, agi: 0, vit: 0, int: 0, dex: 0, luk: 0,
       hpA: 0.3,
       hpB: 5,
       baseSP: 10,
@@ -107,6 +110,8 @@ export const jobData = {
 
   archer: {
     stats: {
+      str: 0, agi: 0, vit: 0, int: 0, dex: 0, luk: 0,
+
       hpA: 0.5,
       hpB: 5,
       baseSP: 10,
@@ -148,6 +153,8 @@ export const jobData = {
 
   acolyte: {
     stats: {
+      str: 0, agi: 0, vit: 0, int: 0, dex: 0, luk: 0,
+
       hpA: 0.4,
       hpB: 5,
       baseSP: 10,
@@ -189,6 +196,8 @@ export const jobData = {
 
   merchant: {
     stats: {
+      str: 0, agi: 0, vit: 0, int: 0, dex: 0, luk: 0,
+
       hpA: 0.4,
       hpB: 5,
       baseSP: 10,
@@ -229,6 +238,7 @@ export const jobData = {
   },
 
   thief: {
+    str: 0, agi: 0, vit: 0, int: 0, dex: 0, luk: 0,
     stats: {
       hpA: 0.5,
       hpB: 5,

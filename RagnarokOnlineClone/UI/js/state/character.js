@@ -4,7 +4,6 @@ export const character = {
   job: "novice",
   weapon: "hand",
   speedMod: 0,
-
   stats: {
     str: 1,
     agi: 1,

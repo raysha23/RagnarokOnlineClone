@@ -1,5 +1,6 @@
 //File path: js/ui/skill-renderer.js
 // ================= IMPORTS =================
+import { saveSkillState, recalculatePointsUsed } from "../state/skill-state.js";
 import {
   skillLayout,
   skillData,
@@ -273,6 +274,7 @@ function fulfillRequirements(skillKey, connMap) {
 
 // ================= CLICK LOGIC =================
 function handleSkillClick(
+
   skillKey,
   maxLv,
   jobLevelSelect,
@@ -290,11 +292,15 @@ function handleSkillClick(
     shakeUI(jobLevelSelect);
     return;
   }
-
-  // ================= APPLY TARGET SKILL =================
+  
   if (incrementSkill(skillKey, maxLv)) {
-    updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
 
+    recalculatePointsUsed(); // ✅ AFTER increment
+  
+    updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
+  
+    saveSkillState(character); // ✅ AFTER update
+  
     renderSkills(character, {
       skillTreeArea: document.querySelector(".skill-tree-area"),
       skillCard: document.querySelector(".ro-skill-card"),
@@ -302,6 +308,7 @@ function handleSkillClick(
       pointsLeftInput,
       pointsUsedInput,
     });
+  
   } else {
     shakeUI(jobLevelSelect);
   }
