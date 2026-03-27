@@ -26,7 +26,7 @@ export function initializeElements() {
   elements.fleeBaseInput = document.querySelector(".flee-base");
   elements.fleeLukInput = document.querySelector(".flee-luk");
   elements.levelInput = document.querySelector(".lvl-value-input");
-  elements.jobLevelInput = document.getElementById("job-level");
+  elements.jobLevelInput = document.getElementById("jobLevel");
   elements.statusPointInput = document.querySelector(".status-value");
   elements.jobBonusValues = document.querySelectorAll(".job-bonus-value");
 

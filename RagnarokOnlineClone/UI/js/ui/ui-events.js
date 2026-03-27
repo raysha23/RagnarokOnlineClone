@@ -13,15 +13,21 @@ import { jobData } from "../data/job-data.js";
 
 export function initializeUIEvents() {
   // Prefer elements provided by initializeElements, fall back to querying the DOM
-  const heroImage = elements.heroImage || document.getElementById('heroImage');
-  const innateLeftImgs = (elements.innateLeftImgs && Array.from(elements.innateLeftImgs)) || Array.from(document.querySelectorAll('.innate-left img'));
-  const barsCharacter = elements.barsCharacter || document.querySelector('.bars-character');
-  const heroSelection = elements.heroSelection || document.querySelector('.hero-selection img');
-  const jobItems = elements.jobItems || document.querySelectorAll('.job-item');
-  const weaponSelect = elements.weaponSelect || document.getElementById('weapon-select');
-  const maleBtn = elements.maleBtn || document.getElementById('maleBtn');
-  const femaleBtn = elements.femaleBtn || document.getElementById('femaleBtn');
-  const levelInput = elements.levelInput || document.querySelector('.lvl-value-input');
+  const heroImage = elements.heroImage || document.getElementById("heroImage");
+  const innateLeftImgs =
+    (elements.innateLeftImgs && Array.from(elements.innateLeftImgs)) ||
+    Array.from(document.querySelectorAll(".innate-left img"));
+  const barsCharacter =
+    elements.barsCharacter || document.querySelector(".bars-character");
+  const heroSelection =
+    elements.heroSelection || document.querySelector(".hero-selection img");
+  const jobItems = elements.jobItems || document.querySelectorAll(".job-item");
+  const weaponSelect =
+    elements.weaponSelect || document.getElementById("weapon-select");
+  const maleBtn = elements.maleBtn || document.getElementById("maleBtn");
+  const femaleBtn = elements.femaleBtn || document.getElementById("femaleBtn");
+  const levelInput =
+    elements.levelInput || document.querySelector(".lvl-value-input");
 
   // Minimal essential check: if there are no job items and no heroImage, nothing to initialize for this module
   if (!heroImage && (!jobItems || jobItems.length === 0)) {
@@ -36,11 +42,14 @@ export function initializeUIEvents() {
   const barsCharacterImages = CharacterImages.bars;
   const heroSelectionImages = CharacterImages.selection;
 
-  let currentGender = 'male';
+  let currentGender = "male";
 
   // ================= HERO IMAGE =================
   function initializeHero(heroName) {
-    const hero = (heroes && heroes.find((h) => h.name.toLowerCase() === heroName.toLowerCase())) || (heroes && heroes[0]);
+    const hero =
+      (heroes &&
+        heroes.find((h) => h.name.toLowerCase() === heroName.toLowerCase())) ||
+      (heroes && heroes[0]);
 
     const job = heroName.toLowerCase();
 
@@ -69,7 +78,10 @@ export function initializeUIEvents() {
     const setHeroSelection = (index = 0) => {
       if (!heroSelection || index >= selectionPaths.length) return;
       heroSelection.onerror = () => {
-        console.info('hero selection failed to load, trying next:', selectionPaths[index]);
+        console.info(
+          "hero selection failed to load, trying next:",
+          selectionPaths[index],
+        );
         setHeroSelection(index + 1);
       };
       heroSelection.src = selectionPaths[index];
@@ -160,7 +172,7 @@ export function initializeUIEvents() {
     // ✅ Reset base level on page load
     levelInput.value = 1;
     character.baseLevel = 1;
-    
+
     const applyBaseLevel = (value) => {
       const normalized = Math.max(1, Math.min(99, value));
       character.baseLevel = normalized;
@@ -282,13 +294,14 @@ export function initializeUIEvents() {
           elements.jobLevelInput.appendChild(option);
         }
 
-        // ✅ RESET JOB LEVEL
-        character.jobLevel = 1;
-        elements.jobLevelInput.value = 1;
+        // 🔥 Only reset job level if not restoring
+        if (!window.isRestoringState) {
+          character.jobLevel = 1;
+          elements.jobLevelInput.value = 1;
+        }
       }
 
       updateJobBonusUI(); // will now show 0 bonuses
-
       updateWeaponDropdown(job, false);
 
       jobItems.forEach((i) => {
@@ -349,9 +362,11 @@ export function initializeUIEvents() {
     (item) => item.dataset.job === defaultJob,
   );
 
-  if (defaultJobItem) defaultJobItem.click();
-  else updateWeaponDropdown(defaultJob);
-
+  // 🔥 DO NOT override restored state
+  if (!window.isRestoringState) {
+    if (defaultJobItem) defaultJobItem.click();
+    else updateWeaponDropdown(defaultJob);
+  }
   if (elements.jobLevelInput) {
     const job = elements.jobTitle.textContent.toLowerCase();
 
