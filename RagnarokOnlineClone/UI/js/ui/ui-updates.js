@@ -31,9 +31,9 @@ export function updateUI() {
   if (elements.fleeBaseInput) elements.fleeBaseInput.value = character.calcStats.flee;
 
   // ================= LEVEL =================
-  if (elements.levelInput) elements.levelInput.value = character.baseLevel;
+  if (elements.levelInput) elements.levelInput.value = isNaN(character.baseLevel) ? 1 : character.baseLevel;
   if (elements.statusPointInput)
-    elements.statusPointInput.value = character.availablePoints;
+    elements.statusPointInput.value = isNaN(character.availablePoints) ? 0 : character.availablePoints;
     console.log("STATS:", character.stats);
     console.log("CALC:", character.calcStats);
   // ================= STAT ROWS =================
@@ -51,7 +51,7 @@ export function updateUI() {
     const value = character.stats[statName];
     const cost = getStatIncreaseCost(value);
 
-    if (input) input.value = value;
+    if (input) input.value = isNaN(value) ? 1 : value;
 
     if (elements.ptsReqDisplays && elements.ptsReqDisplays[index]) {
       elements.ptsReqDisplays[index].textContent = cost;

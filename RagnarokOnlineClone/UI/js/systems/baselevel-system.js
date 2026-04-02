@@ -29,7 +29,7 @@ export function initializeStats() {
   }
 
   // Restore stats from baseStats instead of overwriting with defaults
-  character.stats = { ...character.calcStats };
+  // character.stats = { ...character.calcStats };
 
   // If level input exists, apply level-based points on top
   const initialLevel = elements.levelInput

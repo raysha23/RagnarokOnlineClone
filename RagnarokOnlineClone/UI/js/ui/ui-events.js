@@ -14,16 +14,35 @@ import { jobData } from "../data/job-data.js";
 const savedStats = localStorage.getItem("characterStats");
 
 if (savedStats) {
-  const parsed = JSON.parse(savedStats);
-
-  Object.keys(character.stats).forEach(stat => {
-    if (parsed[stat] !== undefined) {
-      character.stats[stat] = Number(parsed[stat]);
+  try {
+    const parsed = JSON.parse(savedStats);
+    let hasInvalid = false;
+    Object.keys(character.stats).forEach(stat => {
+      if (parsed[stat] !== undefined) {
+        const num = Number(parsed[stat]);
+        if (isNaN(num) || num < 1 || num > 99) {
+          hasInvalid = true;
+        } else {
+          character.stats[stat] = num;
+        }
+      }
+    });
+    if (hasInvalid) {
+      localStorage.removeItem("characterStats");
+      console.warn("Invalid stats in localStorage, resetting to defaults.");
     }
-  });
+  } catch (e) {
+    localStorage.removeItem("characterStats");
+    console.warn("Failed to parse saved stats, resetting.");
+  }
 }
 
 export function initializeUIEvents() {
+  // Check if this is the stats page
+  if (!document.querySelector(".stats-top")) {
+    return;
+  }
+
   // Prefer elements provided by initializeElements, fall back to querying the DOM
   const heroImage = elements.heroImage || document.getElementById("heroImage");
   const innateLeftImgs =
