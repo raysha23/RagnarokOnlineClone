@@ -1,12 +1,13 @@
 // File: js/data/game-data.js
 import { jobData } from "./job-data.js";
+import { state } from "../state/skill-state.js";
 
 export const gameData = {
   characters: {}, // <-- this will store per-job current stats
 
   // Initialize characters from jobData
   initCharacters() {
-    Object.keys(jobData).forEach(job => {
+    Object.keys(jobData).forEach((job) => {
       if (!this.characters[job]) {
         this.characters[job] = {
           stats: { ...jobData[job].stats }, // start with job base stats
@@ -22,15 +23,22 @@ export const gameData = {
     const char = this.characters[job];
     if (!char) return;
 
-    // Example: loop through skills and add stat bonuses
-    if (char.skills) {
-      Object.values(char.skills).forEach(skill => {
-        if (skill.bonus) {
-          Object.keys(skill.bonus).forEach(stat => {
-            char.stats[stat] = (char.stats[stat] || 0) + skill.bonus[stat];
-          });
-        }
-      });
-    }
+    // 🔁 Reset stats first (IMPORTANT to avoid stacking!)
+    char.stats = { ...jobData[job].stats };
+
+    const skills = state.characterSkillLevels;
+
+    Object.keys(skills).forEach((skillKey) => {
+      const level = skills[skillKey];
+
+      if (level <= 0) return;
+
+      // 👉 Example: handle specific skills
+      if (skillKey === "MerchantEnlargeWeightLimit") {
+        char.stats.weight = (char.stats.weight || 0) + 200 * level;
+      }
+
+      // 👉 Add more skills here later
+    });
   },
 };

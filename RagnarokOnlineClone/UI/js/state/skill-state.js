@@ -1,3 +1,4 @@
+// File: RagnarokOnlineClone/UI/js/state/skill-state.js
 // ================= STATE =================
 export const state = {
   skillPointsUsed: 0,
@@ -30,7 +31,7 @@ export function incrementSkill(skillKey, maxLv) {
 export function saveSkillState(job) {
   const data = {
     skills: state.characterSkillLevels,
-    pointsUsed: state.pointsUsed || 0,
+    pointsUsed: state.skillPointsUsed,
   };
 
   localStorage.setItem(`skillState_${job}`, JSON.stringify(data));
@@ -43,7 +44,9 @@ export function loadSkillState(job) {
   const data = JSON.parse(saved);
 
   state.characterSkillLevels = data.skills || {};
-  // state.pointsUsed = data.pointsUsed || 0;
+  // Calculate total used points from loaded skills
+  const total = Object.values(state.characterSkillLevels).reduce((sum, level) => sum + level, 0);
+  state.skillPointsUsed = total;
 }
 export function recalculatePointsUsed() {
   let total = 0;

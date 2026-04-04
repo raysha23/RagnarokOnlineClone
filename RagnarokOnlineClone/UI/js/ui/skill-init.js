@@ -144,7 +144,6 @@ export function init() {
   : 50;
   
   loadSkillState(selectedJob);
-  recalculatePointsUsed();
   updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
   // renderSkills(selectedJob, elements);
   if (jobLevelSelect) jobLevelSelect.value = initialJobLevel;

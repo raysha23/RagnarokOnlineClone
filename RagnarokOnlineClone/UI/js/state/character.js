@@ -22,4 +22,29 @@ export const character = {
     luk: 1,
   },
   availablePoints: 0,
+  skills: {
+    swordsman: {
+      hpRecovery: 0,
+      swordMastery: 0,
+      twoHandedSwordMastery: 0,
+    },
+    magician: {
+      spRecovery: 0,
+    },
+    archer: {
+      owlsEye: 0,
+      vulturesEye: 0,
+    },
+    acolyte: {
+      demonBane: 0,
+      divineProtection: 0,
+    },
+    merchant: {
+      enlargeWeight: 0,
+    },
+    thief: {
+      doubleAttack: 0,
+      improveDodge: 0,
+    },
+  },
 };
