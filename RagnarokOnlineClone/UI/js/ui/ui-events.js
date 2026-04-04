@@ -1,5 +1,6 @@
 //Folder Path: RagnarokOnlineClone/UI/js/ui/ui-events.js
 import { elements } from "./ui-elements.js";
+import { resetCharacter } from "../systems/reset-character.js";
 import { CharacterImages } from "../data/job-images.js";
 import { weaponTypes } from "../data/weapon-data.js";
 import { character } from "../state/character.js";
@@ -10,14 +11,14 @@ import { getStatIncreaseCost } from "../formulas/stat-formula.js";
 import { updateJobLevel } from "../systems/joblevel-system.js";
 import { getTotalJobBonus } from "../systems/joblevel-system.js";
 import { jobData } from "../data/job-data.js";
-  
+
 const savedStats = localStorage.getItem("characterStats");
 
 if (savedStats) {
   try {
     const parsed = JSON.parse(savedStats);
     let hasInvalid = false;
-    Object.keys(character.stats).forEach(stat => {
+    Object.keys(character.stats).forEach((stat) => {
       if (parsed[stat] !== undefined) {
         const num = Number(parsed[stat]);
         if (isNaN(num) || num < 1 || num > 99) {
@@ -283,8 +284,12 @@ export function initializeUIEvents() {
       updateUI();
     };
 
-    plusBtn?.addEventListener("click", () => sanitizeAndSet(character.stats[statName] + 1));
-    minusBtn?.addEventListener("click", () => sanitizeAndSet(character.stats[statName] - 1));
+    plusBtn?.addEventListener("click", () =>
+      sanitizeAndSet(character.stats[statName] + 1),
+    );
+    minusBtn?.addEventListener("click", () =>
+      sanitizeAndSet(character.stats[statName] - 1),
+    );
     statInput?.addEventListener("input", (e) => {
       let digits = e.target.value.replace(/\D/g, "");
       e.target.value = digits;
@@ -309,6 +314,13 @@ export function initializeUIEvents() {
   jobItems.forEach((item) => {
     item.addEventListener("click", () => {
       const job = item.dataset.job.toLowerCase();
+
+      // ✅ ONLY reset if different job
+      if (character.job !== job) {
+        resetCharacter(job);
+      }
+
+      // Dynamically set job level dropdown based on selected job's max bonus level
       const bonusLevels = Object.keys(jobData[job].jobBonus || {}).map(Number);
       const maxJobLevel = bonusLevels.length ? Math.max(...bonusLevels) : 9;
 
@@ -321,11 +333,11 @@ export function initializeUIEvents() {
           elements.jobLevelInput.appendChild(option);
         }
 
-        // 🔥 Only reset job level if not restoring
-        if (!window.isRestoringState) {
-          character.jobLevel = 1;
-          elements.jobLevelInput.value = 1;
-        }
+        // Reset job level display and internal value on character switch
+        character.jobLevel = 1;
+        elements.jobLevelInput.value = 1;
+        updateJobLevel(1);
+        updateUI(); // Update UI to reflect reset state before applying job bonus
       }
 
       updateJobBonusUI(); // will now show 0 bonuses

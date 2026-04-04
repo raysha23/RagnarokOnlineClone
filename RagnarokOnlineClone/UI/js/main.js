@@ -47,7 +47,6 @@ window.addEventListener("DOMContentLoaded", () => {
 // =============================
 // 🎯 NAVIGATION TO SKILL PAGE
 // =============================
-const stats = character.stats;
 async function goToSkills() {
   const activeJob =
     document.querySelector(".job-item.active")?.dataset.job || "novice";
@@ -62,6 +61,7 @@ async function goToSkills() {
     if (!isNaN(jl)) jobLevel = Math.max(1, Math.min(50, jl)).toString();
   }
   const baseLevel = character.baseLevel;
+  const stats = character.baseStats || character.stats;
 
   const statsQuery = `str=${stats.str}&agi=${stats.agi}&vit=${stats.vit}&int=${stats.int}&dex=${stats.dex}&luk=${stats.luk}`;
   window.location.href = `skill-page.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}&baseLevel=${baseLevel}&${statsQuery}`;
@@ -87,7 +87,7 @@ function goBackHome() {
   const gender = maleBtn && maleBtn.src.includes("maleactive") ? "male" : "female";
 
   const baseLevel = character.baseLevel;
-  // const stats = character.stats;
+  const stats = character.baseStats || character.stats;
 
   const statsQuery = `str=${stats.str}&agi=${stats.agi}&vit=${stats.vit}&int=${stats.int}&dex=${stats.dex}&luk=${stats.luk}`;
   window.location.href = `home.html?job=${activeJob}&gender=${gender}&jobLevel=${jobLevel}&baseLevel=${baseLevel}&${statsQuery}`;
