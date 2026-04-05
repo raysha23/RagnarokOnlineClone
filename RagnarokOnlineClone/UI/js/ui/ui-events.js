@@ -101,11 +101,23 @@ export function initializeUIEvents() {
     setHeroImage(0);
 
     // Set alternate selection images if available
-    const selectionPaths = [
-      `images/${job}.png`,
-      `images/${job}${currentGender}.png`,
-      `images/${currentGender}${job}.png`,
-    ];
+    const selectionFallbackJob =
+      job === "swordsman" && currentGender === "female"
+        ? "swordswoman"
+        : job;
+
+    const selectionPaths = currentGender === "female"
+      ? [
+          `images/${currentGender}${job}.png`, // e.g. femaleswordsman.png
+          `images/${job}${currentGender}.png`, // e.g. swordsmanfemale.png
+          `images/${selectionFallbackJob}.png`, // e.g. swordswoman.png
+          `images/${job}.png`, // fallback generic male/default
+        ]
+      : [
+          `images/${job}.png`,
+          `images/${currentGender}${job}.png`,
+          `images/${job}${currentGender}.png`,
+        ];
 
     const setHeroSelection = (index = 0) => {
       if (!heroSelection || index >= selectionPaths.length) return;

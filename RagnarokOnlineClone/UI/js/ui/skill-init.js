@@ -28,6 +28,11 @@ export function init() {
   const pointsLeftInput = document.getElementById("pointsLeft");
   const pointsUsedInput = document.getElementById("pointsUsed");
 
+  const disableSkillPageNavigation = true;
+  if (disableSkillPageNavigation && jobLevelSelect) {
+    jobLevelSelect.disabled = true;
+  }
+
   // ================= AUTO ALLOCATE =================
   function autoAllocateSkills(maxPoints) {
     let usedPoints = 0;
@@ -167,7 +172,6 @@ export function init() {
   // ================= CLASS SELECT =================
   classIcons.forEach((icon) => {
     const charName = icon.dataset.character;
-
     if (charName === selectedJob) {
       icon.src = characterImages[charName].active;
       icon.classList.add("active");
@@ -187,41 +191,45 @@ export function init() {
       icon.src = characterImages[charName].inactive;
     }
 
-    icon.addEventListener("click", () => {
-      resetState();
+    if (!disableSkillPageNavigation) {
+      icon.addEventListener("click", () => {
+        resetState();
 
-      jobLevelSelect.value = 50;
-      previousJobLevel = 50;
+        jobLevelSelect.value = 50;
+        previousJobLevel = 50;
 
-      state.skillPointsUsed = 0;
-      state.skillPointsLeft = 49;
+        state.skillPointsUsed = 0;
+        state.skillPointsLeft = 49;
 
-      updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
+        updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
 
-      classIcons.forEach(
-        (i) => (i.src = characterImages[i.dataset.character].inactive)
-      );
+        classIcons.forEach(
+          (i) => (i.src = characterImages[i.dataset.character].inactive)
+        );
 
-      icon.src = characterImages[charName].active;
+        icon.src = characterImages[charName].active;
 
-      document
-        .querySelector(".class-icons img.active")
-        ?.classList.remove("active");
+        document
+          .querySelector(".class-icons img.active")
+          ?.classList.remove("active");
 
-      icon.classList.add("active");
+        icon.classList.add("active");
 
-      updateHeroImages(charName);
-      typeMessage(messageText, characterMessages[charName]);
-      updateSkillTreeTitle(skillTreeTitles[charName]);
+        updateHeroImages(charName);
+        typeMessage(messageText, characterMessages[charName]);
+        updateSkillTreeTitle(skillTreeTitles[charName]);
 
-      renderSkills(charName, {
-        skillTreeArea,
-        skillCard,
-        jobLevelSelect,
-        pointsLeftInput,
-        pointsUsedInput,
+        renderSkills(charName, {
+          skillTreeArea,
+          skillCard,
+          jobLevelSelect,
+          pointsLeftInput,
+          pointsUsedInput,
+        });
       });
-    });
+    } else {
+      icon.style.pointerEvents = "none";
+    }
   });
 
   // ================= GENDER =================
