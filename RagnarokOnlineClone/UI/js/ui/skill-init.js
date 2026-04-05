@@ -1,5 +1,5 @@
 // File Path: js/ui/skill-init.js
-import { loadSkillState, recalculatePointsUsed } from "../state/skill-state.js";
+import { loadSkillState, saveSkillState, recalculatePointsUsed } from "../state/skill-state.js";
 import {
   skillData,
   skillInfo,
@@ -138,6 +138,23 @@ export function init() {
     }, 300);
   }
 
+  function trimSkillStateToJobPoints(maxPoints, job) {
+    if (state.skillPointsUsed <= maxPoints) return;
+
+    // ✅ Rebuild skill allocation from scratch respecting new budget + prerequisites
+    const originalSkills = { ...state.characterSkillLevels };
+    resetAllSkills();
+
+    state.skillPointsUsed = 0;
+    state.skillPointsLeft = maxPoints;
+
+    autoAllocateSkills(maxPoints);
+
+    console.log(
+      `[TRIM] Skill state adjusted from ${Object.values(originalSkills).reduce((a, b) => a + b, 0)} to ${state.skillPointsUsed} points (max: ${maxPoints})`,
+    );
+  }
+
   // ================= INIT =================
   const urlParams = new URLSearchParams(window.location.search);
   const selectedJob = urlParams.get("job") || "novice";
@@ -145,14 +162,16 @@ export function init() {
   
   const urlJobLevel = parseInt(urlParams.get("jobLevel"), 10);
   const initialJobLevel = !isNaN(urlJobLevel)
-  ? Math.max(1, Math.min(50, urlJobLevel))
-  : 50;
-  
+    ? Math.max(1, Math.min(50, urlJobLevel))
+    : 50;
+
   loadSkillState(selectedJob);
-  updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
-  // renderSkills(selectedJob, elements);
   if (jobLevelSelect) jobLevelSelect.value = initialJobLevel;
 
+  const maxPoints = initialJobLevel - 1;
+  trimSkillStateToJobPoints(maxPoints, selectedJob);
+  saveSkillState(selectedJob); // ✅ SAVE trimmed state to localStorage
+  updatePoints(jobLevelSelect, state, pointsLeftInput, pointsUsedInput);
 
   previousJobLevel = initialJobLevel;
 
