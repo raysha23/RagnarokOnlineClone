@@ -48,6 +48,9 @@ window.addEventListener("DOMContentLoaded", () => {
 // 🎯 NAVIGATION TO SKILL PAGE
 // =============================
 async function goToSkills() {
+  document.body.style.cursor = "wait"; // ⏳ loading cursor
+  document.body.classList.add("loading");
+
   const activeJob =
     document.querySelector(".job-item.active")?.dataset.job || "novice";
   const maleBtn = document.getElementById("maleBtn");
@@ -72,6 +75,8 @@ window.goToSkills = goToSkills;
 // 🔙 NAVIGATION BACK TO HOME
 // =============================
 function goBackHome() {
+  document.body.style.cursor = "wait"; // ⏳ loading cursor
+  document.body.classList.add("loading");
   const activeJob =
     document.querySelector(".class-icons img.active")?.dataset.character ||
     "novice";

@@ -13,3 +13,7 @@
 .character-move-reset {
   transform: translateX(0);
 }
+
+.loading * {
+  cursor: wait !important;
+}
